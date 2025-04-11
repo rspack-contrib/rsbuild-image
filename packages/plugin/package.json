@@ -1,32 +1,95 @@
 {
   "name": "@rsbuild-image/plugin",
-  "version": "1.0.0",
-  "type": "module",
+  "version": "0.0.0",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
+      "node": "./dist/index.js",
+      "import": "./dist/index.mjs"
+    },
+    "./runtime": {
+      "types": "./dist/runtime/index.d.ts",
+      "node": "./dist/runtime/index.js",
+      "import": "./dist/runtime/index.mjs"
+    },
+    "./loader": {
+      "types": "./dist/loader.d.ts",
+      "node": "./dist/loader.js",
+      "import": "./dist/loader.mjs"
+    },
+    "./types": {
+      "types": "./dist/global.d.ts"
     }
   },
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
+  "typesVersions": {
+    "*": {
+      ".": ["./dist/index.d.ts"],
+      "runtime": ["./dist/runtime/index.d.ts"],
+      "loader": ["./dist/loader.d.ts"],
+      "types": ["./dist/global.d.ts"]
+    }
+  },
+  "sideEffects": ["**/*.css", "dist/logger.*"],
+  "files": ["dist"],
   "scripts": {
     "prepare": "pnpm build",
     "build": "rslib build",
+    "build:storybook": "storybook build",
+    "storybook": "storybook dev --no-open --port 6006",
     "check": "biome check --write",
     "dev": "rslib build --watch",
     "format": "biome format --write",
-    "test": "vitest run"
+    "test": "VITE_CJS_IGNORE_WARNING=true vitest run",
+    "test:watch": "VITE_CJS_IGNORE_WARNING=true vitest",
+    "preview-pack": "bash ./scripts/preview-pack.sh"
+  },
+  "dependencies": {
+    "image-size": "^2.0.1",
+    "p-memoize": "catalog:",
+    "rslog": "catalog:",
+    "type-fest": "catalog:",
+    "ufo": "catalog:"
   },
   "devDependencies": {
+    "@rsbuild/core": "catalog:",
+    "@rsbuild/plugin-react": "catalog:",
     "@rslib/core": "catalog:",
+    "@storybook/addon-essentials": "catalog:",
+    "@storybook/addon-interactions": "catalog:",
+    "@storybook/addon-links": "catalog:",
+    "@storybook/addon-onboarding": "catalog:",
+    "@storybook/blocks": "catalog:",
+    "@storybook/react": "catalog:",
+    "@storybook/test": "catalog:",
+    "@testing-library/react": "catalog:",
+    "@testing-library/jest-dom": "catalog:",
     "@types/node": "catalog:",
-    "vitest": "catalog:"
+    "@types/react": "catalog:",
+    "jsdom": "catalog:",
+    "react": "catalog:",
+    "jiti": "catalog:",
+    "sharp": "catalog:",
+    "vitest": "catalog:",
+    "ipx": "catalog:",
+    "storybook": "catalog:",
+    "storybook-addon-rslib": "catalog:",
+    "storybook-react-rsbuild": "catalog:"
   },
-  "private": true
+  "peerDependencies": {
+    "react": ">=16.9.0",
+    "react-dom": ">=16.9.0",
+    "sharp": ">=0.33.5",
+    "ipx": ">=3.0.3"
+  },
+  "peerDependenciesMeta": {
+    "sharp": {
+      "optional": true
+    },
+    "ipx": {
+      "optional": true
+    }
+  }
 }

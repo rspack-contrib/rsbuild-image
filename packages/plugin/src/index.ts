@@ -1,1 +1,2 @@
-export const squared = (n: number): number => n * n;
+export * from './plugin';
+export type * from './types/image';
