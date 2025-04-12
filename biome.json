@@ -30,5 +30,17 @@
         "useAltText": "warn"
       }
     }
-  }
+  },
+  "overrides": [
+    {
+      "include": ["**/*.d.ts"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noVar": "off"
+          }
+        }
+      }
+    }
+  ]
 }

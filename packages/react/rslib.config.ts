@@ -20,7 +20,18 @@ export default defineConfig({
   output: {
     target: 'web',
     distPath: { root: 'dist' },
-    copy: [{ context: 'src', from: 'env.d.ts' }],
+    copy: {
+      patterns: [
+        {
+          context: 'src',
+          from: 'global.d.ts',
+          transform: (content) =>
+            content
+              .toString()
+              .replace('./types/image', '@rsbuild-image/react/runtime'),
+        },
+      ],
+    },
   },
   lib: [
     { format: 'esm', bundle: false, dts: true },

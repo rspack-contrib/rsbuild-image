@@ -1,6 +1,5 @@
 import type { ImageLoader, ImageProps } from '@/types/image';
 import type { Meta, StoryObj } from '@storybook/react';
-import type { PropsWithChildren } from 'react';
 import imgMountains from '../../../tests/fixtures/images/large.jpg?image';
 import { Image } from './image';
 import { resolveImageProps } from './props';
@@ -23,7 +22,9 @@ const generateRandomSVGThumbnail = (width: number, height: number) => {
   const svg = `
     <svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
       <rect width="100%" height="100%" fill="${color}" />
-      <circle cx="${width / 2}" cy="${height / 2}" r="${Math.min(width, height) / 4}"
+      <circle cx="${width / 2}" cy="${height / 2}" r="${
+    Math.min(width, height) / 4
+  }"
         fill="${contrastColor}"
         opacity="0.5" />
     </svg>
@@ -36,7 +37,7 @@ const generateRandomSVGThumbnail = (width: number, height: number) => {
 const getRemoteImageModule = (
   width = 500,
   height = 300,
-  id = Math.floor(Math.random() * 1000) + 1,
+  id = Math.floor(Math.random() * 1000) + 1
 ) => ({
   url: `https://picsum.photos/id/${id}/${width}/${height}`,
   width,
@@ -44,8 +45,8 @@ const getRemoteImageModule = (
   thumbnail: {
     url: generateRandomSVGThumbnail(8, 8),
     width: 8,
-    height: 8,
-  },
+    height: 8
+  }
 });
 
 function Renderer(props: ImageProps) {
@@ -60,7 +61,7 @@ const meta: Meta<typeof Image> = {
   title: 'Image',
   component: Image,
   parameters: {
-    layout: 'centered',
+    layout: 'centered'
   },
   render: Renderer,
   tags: ['autodocs'],
@@ -82,11 +83,11 @@ const meta: Meta<typeof Image> = {
     unoptimized: { type: 'boolean' },
     onError: { type: 'function' },
     onLoad: { type: 'function' },
-    onLoadingComplete: { type: 'function' },
+    onLoadingComplete: { type: 'function' }
   },
   args: {
-    ...resolveImageProps({ src: getRemoteImageModule() }),
-  },
+    ...resolveImageProps({ src: getRemoteImageModule() })
+  }
 };
 
 export default meta;
@@ -100,14 +101,14 @@ const imageLoader: ImageLoader = ({ src, quality, width }) => {
 export const Default: Story = {
   args: {
     src: imgMountains,
-    loader: imageLoader,
-  },
+    loader: imageLoader
+  }
 };
 
 export const BlurThumbnail: Story = {
   args: {
     src: imgMountains,
     loader: imageLoader,
-    placeholder: 'blur',
-  },
+    placeholder: 'blur'
+  }
 };

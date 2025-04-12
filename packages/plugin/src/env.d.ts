@@ -1,8 +1,14 @@
-/// <reference path="./global.d.ts" />
-import type { ImageSerializableContext } from '@/types/image';
+declare module '*?image' {
+  const imageModule: ImageModule;
+  export default imageModule;
+}
 
 declare global {
-  var __INTERNAL_RSBUILD_IMAGE_OPTIONS__: ImageSerializableContext | undefined;
-  var __INTERNAL_RSBUILD_IMAGE_BASENAME__: string | undefined;
-  var IS_TEST: boolean;
+  import type { ImageModule, ImageSerializableContext } from './types/image';
+
+  declare var __INTERNAL_RSBUILD_IMAGE_OPTIONS__:
+    | ImageSerializableContext
+    | undefined;
+  declare var __INTERNAL_RSBUILD_IMAGE_BASENAME__: string | undefined;
+  declare var IS_TEST: boolean;
 }
