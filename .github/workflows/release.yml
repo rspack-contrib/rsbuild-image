@@ -9,6 +9,8 @@ on:
 
   workflow_dispatch:
 
+
+
 permissions:
   contents: write
   id-token: write
@@ -16,6 +18,7 @@ permissions:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    environment: production
     steps:
       - name: Checkout
         uses: actions/checkout@v4
