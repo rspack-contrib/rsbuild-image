@@ -3,7 +3,7 @@ import { fileURLToPath } from 'node:url';
 import { type Rspack, rspack } from '@rsbuild/core';
 import { assert, beforeEach, describe, expect, it, vi } from 'vitest';
 import { images } from '../tests/fixtures/images';
-import loader from './loader';
+import loader, { type LoaderOptions } from './loader';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -14,15 +14,22 @@ type LoaderCallback = (
   result: string | Buffer | undefined,
 ) => void;
 
+let mockLoaderOptions: unknown = {};
+
 const mockContext = {
   async: vi.fn(),
   importModule: vi.fn(),
+  getOptions: vi.fn(() => mockLoaderOptions),
   resource: '/path/to/image.jpg',
   request: 'some-request',
 } as unknown as Rspack.LoaderContext;
 
 // Add loader runner helper
-async function executeLoader(content: Buffer | ArrayBuffer) {
+async function executeLoader(
+  content: Buffer | ArrayBuffer,
+  options: LoaderOptions = {},
+) {
+  mockLoaderOptions = options;
   let resolveCallback: (args: Parameters<LoaderCallback>) => void;
   const promise = new Promise<Parameters<LoaderCallback>>((resolve) => {
     resolveCallback = resolve;
@@ -78,7 +85,8 @@ describe('image loader', () => {
     async (data) => {
       const { buffer, width, height } = data;
 
-      const [, result] = await executeLoader(buffer);
+      const [error, result] = await executeLoader(buffer);
+      expect(error).toBeNull();
       assert(typeof result === 'string');
       const content = JSON.parse(result.replace('export default ', ''));
 
@@ -91,6 +99,19 @@ describe('image loader', () => {
       );
     },
   );
+
+  it('should not generate thumbnail if disabled', async () => {
+    const [error, result] = await executeLoader(images[0].buffer, {
+      thumbnail: false,
+    });
+    expect(error).toBeNull();
+
+    const moduleContent = result as string;
+    expect(moduleContent).toMatch(/^export default /);
+
+    const content = JSON.parse(moduleContent.replace('export default ', ''));
+    expect(content).not.toHaveProperty('thumbnail');
+  });
 
   it('should handle errors gracefully', async () => {
     vi.mocked(mockContext.importModule).mockRejectedValue(

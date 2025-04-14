@@ -6,12 +6,15 @@ import { logger } from './logger';
 import type { ImageSerializableContext } from './shared';
 import { DEFAULT_IPX_BASENAME } from './shared/constants';
 import { isModuleNotFoundError } from './utils';
+import type { LoaderOptions } from './loader';
 
 export interface ExtendedIPXOptions extends Partial<IPXOptions> {
   basename?: string;
 }
 
-export interface PluginImageOptions extends ImageSerializableContext {
+export interface PluginImageOptions
+  extends ImageSerializableContext,
+    LoaderOptions {
   ipx?: ExtendedIPXOptions;
 }
 
@@ -45,6 +48,9 @@ export const pluginImage = (options?: PluginImageOptions): RsbuildPlugin => {
   return {
     name: '@rsbuild-image/core',
     async setup(api) {
+      const { thumbnail } = options ?? {};
+      const loaderOptions: LoaderOptions = { thumbnail };
+
       // Serialize and inject the options to the runtime context.
       api.modifyRsbuildConfig(async (config, { mergeRsbuildConfig }) => {
         if (!options?.ipx && !options?.loader)
@@ -132,7 +138,8 @@ export const pluginImage = (options?: PluginImageOptions): RsbuildPlugin => {
           .type('javascript/auto')
           .resourceQuery(/\?image$/)
           .use('image-component-loader')
-          .loader(require.resolve('./loader.js'));
+          .loader(require.resolve('./loader.js'))
+          .options(loaderOptions);
       });
     },
   };

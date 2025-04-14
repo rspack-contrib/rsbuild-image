@@ -5,9 +5,24 @@ import { logger } from './logger';
 import type { ImageModule, ImageResource } from './shared';
 import { PACKAGE_NAME } from './shared/constants';
 
-const BLUR_IMG_SIZE = 8;
+const THUMBNAIL_SIZE = 8;
 
-async function process(this: Rspack.LoaderContext, content: Buffer) {
+export interface LoaderOptions {
+  /**
+   * Whether to generate the thumbnail image from the original image.
+   *
+   * Will be exported as a optional field of an {@link ImageModule}
+   * for rendering placeholder at runtime.
+   */
+  thumbnail?: boolean;
+}
+
+async function process(
+  this: Rspack.LoaderContext<LoaderOptions>,
+  content: Buffer,
+) {
+  const opts = this.getOptions();
+
   const assetRequest = `${this.resource}.webpack[asset/resource]!=!${this.resource}`;
   const src = await this.importModule(assetRequest);
   logger.debug(`Loaded asset resource module: ${src}`);
@@ -15,22 +30,25 @@ async function process(this: Rspack.LoaderContext, content: Buffer) {
 
   const image = await Image.create(content);
   const { width, height } = image.size();
+  const data: ImageModule = { url: src, width, height };
 
   // Create the blurred thumbnail from the original image.
-  const scale = BLUR_IMG_SIZE / Math.max(width, height);
-  const thumbnail: ImageResource = {
-    url: '',
-    width: Math.round(width * scale),
-    height: Math.round(height * scale),
-  };
-  logger.debug(`Creating thumbnail: ${thumbnail.width}x${thumbnail.height}`);
-  image.resize(thumbnail);
+  if (opts.thumbnail !== false) {
+    const scale = THUMBNAIL_SIZE / Math.max(width, height);
+    const thumbnail: ImageResource = {
+      url: '',
+      width: Math.round(width * scale),
+      height: Math.round(height * scale),
+    };
+    logger.debug(`Creating thumbnail: ${thumbnail.width}x${thumbnail.height}`);
+    image.resize(thumbnail);
 
-  const buf = await image.toBuffer();
-  thumbnail.url = `data:image/jpeg;base64,${buf.toString('base64')}`;
-  logger.debug(`Created thumbnail: ${thumbnail.url}`);
+    const buf = await image.toBuffer();
+    thumbnail.url = `data:image/jpeg;base64,${buf.toString('base64')}`;
+    data.thumbnail = thumbnail;
+    logger.debug(`Created thumbnail: ${thumbnail.url}`);
+  }
 
-  const data: ImageModule = { url: src, width, height, thumbnail };
   return `export default ${JSON.stringify(data)}`;
 }
 
