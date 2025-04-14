@@ -121,6 +121,8 @@ export interface ImageOptions extends Omit<ImageContext, 'loading'> {
 
 export interface ImageProps extends ImageOptions, ImageContext {
   /**
+   * @deprecated Not supported yet.
+   *
    * Whether the image should fill its parent container.
    * When true, the image will stretch to fill its parent container's dimensions.
    * Parent must have 'position: relative' and dimensions set.

@@ -2,8 +2,8 @@ import assert from 'node:assert';
 import type { Rspack } from '@rsbuild/core';
 import { Image } from './image';
 import { logger } from './logger';
-import { PACKAGE_NAME } from './shared/constants';
 import type { ImageModule, ImageResource } from './shared';
+import { PACKAGE_NAME } from './shared/constants';
 
 const BLUR_IMG_SIZE = 8;
 

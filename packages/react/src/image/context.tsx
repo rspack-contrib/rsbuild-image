@@ -11,7 +11,7 @@ export function createImageOptionsContext() {
       ret.loader = mod.default || mod;
       assert.function(
         ret.loader,
-        `Image loader must be a function but got ${typeof ret.loader}`
+        `Image loader must be a function but got ${typeof ret.loader}`,
       );
     }
   }
@@ -19,7 +19,7 @@ export function createImageOptionsContext() {
 }
 
 export const ImageOptionsContext = createContext<ImageContext>(
-  createImageOptionsContext()
+  createImageOptionsContext(),
 );
 
 export interface ImageOptionsProviderProps extends PropsWithChildren {

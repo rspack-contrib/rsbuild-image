@@ -5,7 +5,7 @@ import { createDefines } from './define.config';
 
 const __INTERNAL_RSBUILD_IMAGE_LOADER__ = path.resolve(
   import.meta.dirname,
-  './src/runtime/image/loader',
+  './src/image/loader',
 );
 
 export default defineConfig({
@@ -32,7 +32,7 @@ export default defineConfig({
       config.module.rules ||= [];
       config.module.rules.push({
         resourceQuery: /\?image$/,
-        use: [{ loader: require.resolve('./tests/fixtures/loader.cjs') }],
+        use: [{ loader: require.resolve('@rsbuild-image/core/loader') }],
         type: 'javascript/auto',
       });
     },

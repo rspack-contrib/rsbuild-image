@@ -23,8 +23,5 @@
     "**/dist": true,
     "**/pnpm-lock.yaml": true
   },
-  "cSpell.words": [
-    "rslog",
-    "sindresorhus"
-  ]
+  "cSpell.words": ["rslog", "sindresorhus"]
 }

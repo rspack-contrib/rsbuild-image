@@ -1,6 +1,6 @@
 import type { ImageLoader, ImageProps } from '@/types/image';
 import type { Meta, StoryObj } from '@storybook/react';
-import imgMountains from '../../../tests/fixtures/images/large.jpg?image';
+import imgMountains from '../../tests/fixtures/images/large.jpg?image';
 import { Image } from './image';
 import { resolveImageProps } from './props';
 
