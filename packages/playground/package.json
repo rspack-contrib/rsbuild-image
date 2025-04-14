@@ -1,7 +1,7 @@
 {
   "name": "@rsbuild-image/playground",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1-next.1",
   "scripts": {
     "dev": "npx rsbuild dev",
     "build": "npx rsbuild build"
