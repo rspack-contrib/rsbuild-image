@@ -113,7 +113,12 @@ export class Image {
       | Jp2Options
       | TiffOptions,
   ) {
-    return this.sharp.toFormat(format, options);
+    this.sharp.toFormat(format, options);
+    return this;
+  }
+
+  toBuffer() {
+    return this.sharp.toBuffer();
   }
 
   clone() {

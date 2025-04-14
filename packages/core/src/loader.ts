@@ -26,7 +26,7 @@ async function process(this: Rspack.LoaderContext, content: Buffer) {
   logger.debug(`Creating thumbnail: ${thumbnail.width}x${thumbnail.height}`);
   image.resize(thumbnail);
 
-  const buf = await image.format('jpeg').toBuffer();
+  const buf = await image.toBuffer();
   thumbnail.url = `data:image/jpeg;base64,${buf.toString('base64')}`;
   logger.debug(`Created thumbnail: ${thumbnail.url}`);
 
