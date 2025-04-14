@@ -18,7 +18,7 @@ import type {
 } from 'sharp';
 import { inspectBuffer } from './buffer';
 import { isDebug, logger } from './logger';
-import type { ImageSize } from './types/image';
+import type { ImageSize } from './shared';
 
 export type SharpModule = typeof import('sharp');
 

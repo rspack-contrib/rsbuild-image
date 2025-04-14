@@ -1,4 +1,4 @@
-import { DEFAULT_IPX_BASENAME } from '@/shared/constants';
+import { DEFAULT_IPX_BASENAME } from '@rsbuild-image/core/shared';
 import type { ImageLoader, ImageLoaderArgs } from '@/types/image';
 import { joinURL } from 'ufo';
 

@@ -1,5 +1,5 @@
-import { invariant } from '@/shared/utils';
 import type { ImageContext } from '@/types/image';
+import { assert } from '@sindresorhus/is';
 import { type PropsWithChildren, createContext, useContext } from 'react';
 
 export function createImageOptionsContext() {
@@ -9,9 +9,9 @@ export function createImageOptionsContext() {
     if (typeof __INTERNAL_RSBUILD_IMAGE_OPTIONS__.loader === 'string') {
       const mod = require('__INTERNAL_RSBUILD_IMAGE_LOADER__');
       ret.loader = mod.default || mod;
-      invariant(
-        typeof ret.loader === 'function',
-        `Image loader must be a function but got ${typeof ret.loader}`,
+      assert.function(
+        ret.loader,
+        `Image loader must be a function but got ${typeof ret.loader}`
       );
     }
   }
@@ -19,7 +19,7 @@ export function createImageOptionsContext() {
 }
 
 export const ImageOptionsContext = createContext<ImageContext>(
-  createImageOptionsContext(),
+  createImageOptionsContext()
 );
 
 export interface ImageOptionsProviderProps extends PropsWithChildren {

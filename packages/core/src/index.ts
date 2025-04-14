@@ -1,2 +1,2 @@
 export * from './plugin';
-export type * from './types/image';
+export * from './shared';

@@ -2,8 +2,8 @@ import assert from 'node:assert';
 import type { Rspack } from '@rsbuild/core';
 import { Image } from './image';
 import { logger } from './logger';
-import { PLUGIN_NAME } from './shared/constants';
-import type { ImageModule, ImageResource } from './types/image';
+import { PACKAGE_NAME } from './shared/constants';
+import type { ImageModule, ImageResource } from './shared';
 
 const BLUR_IMG_SIZE = 8;
 
@@ -36,7 +36,7 @@ async function process(this: Rspack.LoaderContext, content: Buffer) {
 
 export default function loader(this: Rspack.LoaderContext, content: Buffer) {
   const callback = this.async();
-  logger.debug(`${PLUGIN_NAME} loader is processing: ${this.request}`);
+  logger.debug(`${PACKAGE_NAME} loader is processing: ${this.request}`);
 
   process
     .call(this, content)

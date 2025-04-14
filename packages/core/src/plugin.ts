@@ -3,8 +3,9 @@ import type { IPXOptions } from 'ipx';
 import { withoutBase } from 'ufo';
 import { logger } from './logger';
 import { DEFAULT_IPX_BASENAME } from './shared/constants';
-import { invariant, isModuleNotFoundError } from './shared/utils';
-import type { ImageSerializableContext } from './types/image';
+import { isModuleNotFoundError } from './utils';
+import type { ImageSerializableContext } from './shared';
+import { assert } from '@sindresorhus/is';
 
 export interface ExtendedIPXOptions extends Partial<IPXOptions> {
   basename?: string;
@@ -94,7 +95,7 @@ export const pluginImage = (options?: PluginImageOptions): RsbuildPlugin => {
             setupMiddlewares: [
               (middlewares) => {
                 const { distPath } = api.context;
-                invariant(distPath, 'distPath is required');
+                assert.string(distPath);
 
                 const { storage = ipxFSStorage({ dir: distPath }), ...rest } =
                   ipxOptions;
