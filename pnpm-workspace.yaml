@@ -35,5 +35,9 @@ catalog:
   ipx: ^3.0.3
   '@sindresorhus/is': ^7.0.1
 onlyBuiltDependencies:
+  - '@biomejs/biome'
   - '@parcel/watcher'
+  - core-js
+  - esbuild
   - sharp
+  - simple-git-hooks
