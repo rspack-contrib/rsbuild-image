@@ -9,7 +9,9 @@
     "lint": "biome check .",
     "lint:write": "biome check . --write",
     "prepare": "simple-git-hooks && pnpm --filter '*' run prepare",
-    "test": "playwright test",
+    "test:browser": "playwright test",
+    "test:unit": "vitest run",
+    "test": "pnpm test:unit",
     "bump": "npx bumpp"
   },
   "simple-git-hooks": {
@@ -21,7 +23,8 @@
     "@types/node": "catalog:",
     "playwright": "catalog:",
     "simple-git-hooks": "^2.12.1",
-    "typescript": "catalog:"
+    "typescript": "catalog:",
+    "vitest": "catalog:"
   },
   "packageManager": "pnpm@10.7.0"
 }

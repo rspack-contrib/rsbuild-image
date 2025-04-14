@@ -11,7 +11,7 @@
     "resolveJsonModule": true,
     "moduleResolution": "bundler",
     "useDefineForClassFields": true,
-    "types": ["@rsbuild/core/types", "@rsbuild-image/plugin/types"],
+    "types": ["node", "@rsbuild/core/types", "@rsbuild-image/plugin/types"],
     "paths": {
       "@/*": ["*"],
       "@vitest/expect": ["../node_modules/@vitest/expect"],

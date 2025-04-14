@@ -21,24 +21,13 @@
   },
   "typesVersions": {
     "*": {
-      ".": [
-        "./dist/index.d.ts"
-      ],
-      "loader": [
-        "./dist/loader.d.ts"
-      ],
-      "types": [
-        "./dist/env.d.ts"
-      ]
+      ".": ["./dist/index.d.ts"],
+      "loader": ["./dist/loader.d.ts"],
+      "types": ["./dist/env.d.ts"]
     }
   },
-  "sideEffects": [
-    "**/*.css",
-    "dist/logger.*"
-  ],
-  "files": [
-    "dist"
-  ],
+  "sideEffects": ["**/*.css", "dist/logger.*"],
+  "files": ["dist"],
   "scripts": {
     "prepare": "pnpm build",
     "build": "rslib build",

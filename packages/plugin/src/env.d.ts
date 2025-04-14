@@ -3,12 +3,14 @@ declare module '*?image' {
   export default imageModule;
 }
 
-declare global {
-  import type { ImageModule, ImageSerializableContext } from './types/image';
+declare module '@rsbuild-image/plugin/types' {
+  declare global {
+    import type { ImageModule, ImageSerializableContext } from './types/image';
 
-  declare var __INTERNAL_RSBUILD_IMAGE_OPTIONS__:
-    | ImageSerializableContext
-    | undefined;
-  declare var __INTERNAL_RSBUILD_IMAGE_BASENAME__: string | undefined;
-  declare var IS_TEST: boolean;
+    declare var __INTERNAL_RSBUILD_IMAGE_OPTIONS__:
+      | ImageSerializableContext
+      | undefined;
+    declare var __INTERNAL_RSBUILD_IMAGE_BASENAME__: string | undefined;
+    declare var IS_TEST: boolean;
+  }
 }
