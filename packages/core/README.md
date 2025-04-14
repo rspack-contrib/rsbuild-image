@@ -1,4 +1,4 @@
-# @rsbuild-image/plugin
+# @rsbuild-image/core
 
 > 🚧 The plugin is under active development, and the API is not stable. Please create an issue if you meet any trouble.
 
@@ -36,7 +36,7 @@ Install the dependencies:
 
 ```bash
 $ pnpm add -D sharp ipx
-$ pnpm add @rsbuild-image/plugin
+$ pnpm add @rsbuild-image/core
 ```
 
 The `sharp` binary is required to be installed on your system, you can install the experimental WebAssembly variant of `sharp` if you have any trouble while installing binary, please refer to the [sharp installation guide](https://sharp.pixelplumbing.com/install/) for more details.
@@ -52,7 +52,7 @@ Setup the plugin to your Rsbuild configuration file, set `ipx` to `{}` to enable
 ```ts
 import { defineConfig } from '@rsbuild/core';
 import { pluginReact } from '@rsbuild/plugin-react';
-import { pluginImage } from '@rsbuild-image/plugin';
+import { pluginImage } from '@rsbuild-image/core';
 
 export default defineConfig({
   plugins: [pluginReact(), pluginImage({ ipx: {} })]
@@ -65,7 +65,7 @@ Or if you are using Modern.js, you can setup the plugin in the `modern.config.ts
 
 ```ts
 import { appTools, defineConfig } from '@modern-js/app-tools';
-import { pluginImage } from '@rsbuild-image/plugin';
+import { pluginImage } from '@rsbuild-image/core';
 
 export default defineConfig({
   plugins: [appTools({ bundler: 'rspack' })],
@@ -80,7 +80,7 @@ Then configure the `tsconfig.json` file to handle all image assets suffixed with
 ```json
 {
   "compilerOptions": {
-    "types": ["@rsbuild-image/plugin/types"]
+    "types": ["@rsbuild-image/core/types"]
   }
 }
 ```
@@ -88,7 +88,7 @@ Then configure the `tsconfig.json` file to handle all image assets suffixed with
 So that you can use the `<Image />` component in your React application:
 
 ```tsx
-import { Image } from '@rsbuild-image/plugin/runtime';
+import { Image } from '@rsbuild-image/core/runtime';
 import imgMountains from './mountains.jpg?image';
 //     ^? { url: string; width: number; height: number; thumbnail: ...
 

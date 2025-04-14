@@ -3,7 +3,7 @@ declare module '*?image' {
   export default imageModule;
 }
 
-declare module '@rsbuild-image/plugin/types' {
+declare module '@rsbuild-image/core/types' {
   declare global {
     import type { ImageModule, ImageSerializableContext } from './types/image';
 

@@ -42,7 +42,7 @@ async function loadIPXModule() {
 
 export const pluginImage = (options?: PluginImageOptions): RsbuildPlugin => {
   return {
-    name: '@rsbuild-image/plugin',
+    name: '@rsbuild-image/core',
     async setup(api) {
       // Serialize and inject the options to the runtime context.
       api.modifyRsbuildConfig(async (config, { mergeRsbuildConfig }) => {

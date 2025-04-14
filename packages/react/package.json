@@ -26,7 +26,7 @@
     "ufo": "catalog:"
   },
   "devDependencies": {
-    "@rsbuild-image/plugin": "workspace:*",
+    "@rsbuild-image/core": "workspace:*",
     "@rsbuild/core": "catalog:",
     "@rsbuild/plugin-react": "catalog:",
     "@rslib/core": "catalog:",
@@ -52,7 +52,7 @@
     "storybook-react-rsbuild": "catalog:"
   },
   "peerDependencies": {
-    "@rsbuild-image/plugin": "*",
+    "@rsbuild-image/core": "*",
     "react": ">=16.9.0",
     "react-dom": ">=16.9.0",
     "sharp": ">=0.33.5",

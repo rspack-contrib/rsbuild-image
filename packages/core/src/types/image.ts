@@ -32,7 +32,7 @@ export interface ImageContext {
   /**
    * Custom image loader function to handle image loading and transformation.
    * Allows integration with image CDNs and custom image processing logic.
-   * @default {import('@rsbuild-image/plugin/runtime').defaultLoader}
+   * @default {import('@rsbuild-image/core/runtime').defaultLoader}
    */
   loader?: ImageLoader;
   /**
