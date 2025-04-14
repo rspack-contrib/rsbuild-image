@@ -2,11 +2,11 @@ import type { RsbuildPlugin } from '@rsbuild/core';
 import { assert } from '@sindresorhus/is';
 import type { IPXOptions } from 'ipx';
 import { withoutBase } from 'ufo';
+import type { LoaderOptions } from './loader';
 import { logger } from './logger';
 import type { ImageSerializableContext } from './shared';
 import { DEFAULT_IPX_BASENAME } from './shared/constants';
 import { isModuleNotFoundError } from './utils';
-import type { LoaderOptions } from './loader';
 
 export interface ExtendedIPXOptions extends Partial<IPXOptions> {
   basename?: string;
