@@ -12,7 +12,8 @@
     "test:browser": "playwright test",
     "test:unit": "vitest run",
     "test": "pnpm test:unit",
-    "bump": "npx bumpp"
+    "bump": "npx bumpp",
+    "bump:prerelease": "pnpm bump -r prerelease --preid next"
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm lint"
