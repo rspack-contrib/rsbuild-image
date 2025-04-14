@@ -15,7 +15,7 @@
     "bump": "npx bumpp"
   },
   "simple-git-hooks": {
-    "pre-commit": "npm run lint:write"
+    "pre-commit": "pnpm lint"
   },
   "devDependencies": {
     "@biomejs/biome": "catalog:",
