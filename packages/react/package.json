@@ -6,6 +6,10 @@
   "types": "./dist/index.d.ts",
   "sideEffects": ["**/*.css", "dist/logger.*"],
   "files": ["dist"],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rspack-contrib/rsbuild-image"
+  },
   "scripts": {
     "prepare": "pnpm build",
     "build": "rslib build",
