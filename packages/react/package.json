@@ -24,9 +24,6 @@
     "preview-pack": "bash ./scripts/preview-pack.sh"
   },
   "dependencies": {
-    "image-size": "^2.0.1",
-    "p-memoize": "catalog:",
-    "rslog": "catalog:",
     "type-fest": "catalog:",
     "ufo": "catalog:",
     "@sindresorhus/is": "catalog:"

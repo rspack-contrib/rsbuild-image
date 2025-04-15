@@ -1,5 +1,5 @@
 import type { ImageOptions, ImageResource } from '@/types/image';
-import { ipxImageLoader } from './loader';
+import { ipxImageLoader } from '@rsbuild-image/core/shared';
 
 export function resolveImageOptions(options: ImageOptions) {
   let src: string;

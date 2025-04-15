@@ -1,6 +1,5 @@
 import { imageSize } from 'image-size';
-import pMemoize from 'p-memoize';
-import type * as sharp from 'sharp';
+// import type * as sharp from 'sharp';
 import type {
   AvifOptions,
   FormatEnum,
@@ -22,7 +21,9 @@ import type { ImageSize } from './shared';
 
 export type SharpModule = typeof import('sharp');
 
-export const loadSharp = pMemoize(async () => {
+let _loadedSharp: typeof import('sharp') | undefined;
+export const loadSharp = async () => {
+  if (_loadedSharp) return _loadedSharp;
   logger.debug('Intend to load sharp package in first time');
   const mod = (await import('sharp')) as
     | typeof import('sharp')
@@ -35,8 +36,9 @@ export const loadSharp = pMemoize(async () => {
       `Successfully loaded sharp(${typeof ret}) with keys: ${Object.keys(ret).join(', ')}`,
     );
   }
+  _loadedSharp = ret;
   return ret;
-});
+};
 
 /**
  * @param type - The type of the image.

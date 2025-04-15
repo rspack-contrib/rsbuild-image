@@ -1,6 +1,6 @@
+import { applyImageLoader } from '@rsbuild-image/core/shared';
 import { type CSSProperties, use } from 'react';
 import { getBlurImage } from './blur';
-import { applyImageLoader } from './loader';
 import type { ResolvedImageProps } from './props';
 
 const INVALID_BACKGROUND_SIZE_VALUES: CSSProperties['objectFit'][] = [

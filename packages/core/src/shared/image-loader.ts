@@ -1,6 +1,6 @@
-import type { ImageLoader, ImageLoaderArgs } from '@/types/image';
-import { DEFAULT_IPX_BASENAME } from '@rsbuild-image/core/shared';
 import { joinURL } from 'ufo';
+import { DEFAULT_IPX_BASENAME } from './constants';
+import type { ImageLoader, ImageLoaderArgs } from './types/image';
 
 export interface ApplyLoaderOptions extends ImageLoaderArgs {
   loader: ImageLoader;

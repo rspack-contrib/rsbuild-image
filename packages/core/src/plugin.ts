@@ -1,6 +1,7 @@
-import type { RsbuildPlugin } from '@rsbuild/core';
+import path from 'node:path';
+import type { RsbuildPlugin, Rspack } from '@rsbuild/core';
 import { assert } from '@sindresorhus/is';
-import type { IPXOptions } from 'ipx';
+import type { IPXOptions, IPXStorage } from 'ipx';
 import { withoutBase } from 'ufo';
 import type { LoaderOptions } from './loader';
 import { logger } from './logger';
@@ -44,6 +45,45 @@ async function loadIPXModule() {
   }
 }
 
+function createBundlerStorage(compiler: Rspack.Compiler): IPXStorage {
+  const useOutputFileSystem = () => {
+    if (!compiler.outputFileSystem) {
+      throw new Error(
+        'Unable to access compiler.outputFileSystem from IPX middleware',
+      );
+    }
+    return compiler.outputFileSystem;
+  };
+  const resolveId = (id: string) => path.join(compiler.outputPath, id);
+  return {
+    name: 'rsbuild-image:bundler-ofs',
+    getMeta(id) {
+      const ofs = useOutputFileSystem();
+      return new Promise((resolve, reject) => {
+        ofs.stat(resolveId(id), (err, res) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(res);
+          }
+        });
+      });
+    },
+    getData(id) {
+      const ofs = useOutputFileSystem();
+      return new Promise((resolve, reject) => {
+        ofs.readFile(resolveId(id), (err, res) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(typeof res === 'string' ? Buffer.from(res) : res);
+          }
+        });
+      });
+    },
+  };
+}
+
 export const pluginImage = (options?: PluginImageOptions): RsbuildPlugin => {
   return {
     name: '@rsbuild-image/core',
@@ -75,7 +115,7 @@ export const pluginImage = (options?: PluginImageOptions): RsbuildPlugin => {
                 aliases.__INTERNAL_RSBUILD_IMAGE_LOADER__ = options.loader;
               } else {
                 aliases.__INTERNAL_RSBUILD_IMAGE_LOADER__ = require.resolve(
-                  './runtime/image/loader',
+                  './shared/image-loader',
                 );
               }
               return aliases;
@@ -84,11 +124,20 @@ export const pluginImage = (options?: PluginImageOptions): RsbuildPlugin => {
         });
       });
 
+      let compiler: Rspack.Compiler | undefined;
+
+      api.onAfterCreateCompiler((params) => {
+        if (compiler) return;
+        compiler =
+          'compilers' in params.compiler
+            ? params.compiler.compilers[0]
+            : params.compiler;
+      });
+
       // Setup the IPX middleware.
       api.modifyRsbuildConfig(async (config, { mergeRsbuildConfig }) => {
         if (!options?.ipx) return;
-        const { createIPX, createIPXNodeServer, ipxFSStorage } =
-          await loadIPXModule();
+        const { createIPX, createIPXNodeServer } = await loadIPXModule();
         const { basename = DEFAULT_IPX_BASENAME, ...ipxOptions } = options.ipx;
 
         return mergeRsbuildConfig(config, {
@@ -100,17 +149,21 @@ export const pluginImage = (options?: PluginImageOptions): RsbuildPlugin => {
           dev: {
             setupMiddlewares: [
               (middlewares) => {
+                assert.truthy(
+                  compiler,
+                  'Compiler is not initialized while setup the IPX middleware',
+                );
                 const { distPath } = api.context;
                 assert.string(distPath);
 
-                const { storage = ipxFSStorage({ dir: distPath }), ...rest } =
+                const { storage = createBundlerStorage(compiler), ...rest } =
                   ipxOptions;
                 const ipx = createIPX({ storage, ...rest });
                 logger.debug(`Created IPX with local storage from ${distPath}`);
                 logger.debug(`Created IPX with basename ${basename}`);
 
                 const originalMiddleware = createIPXNodeServer(ipx);
-                middlewares.push((req, res, _next) => {
+                middlewares.unshift((req, res, _next) => {
                   const next = () => {
                     logger.debug(`IPX middleware incoming request: ${req.url}`);
                     _next();

@@ -1,7 +1,7 @@
 import type { ImageOptions } from '@/types/image';
+import { applyImageLoader } from '@rsbuild-image/core/shared';
 import { useContext } from 'react';
 import { ImageOptionsContext } from './context';
-import { applyImageLoader } from './loader';
 import { resolveImageOptions } from './options';
 
 export function UNSTABLE_useImage() {
