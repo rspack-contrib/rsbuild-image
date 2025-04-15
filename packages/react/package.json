@@ -5,6 +5,7 @@
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "sideEffects": ["**/*.css", "dist/logger.*"],
+  "license": "MIT",
   "files": ["dist"],
   "repository": {
     "type": "git",
