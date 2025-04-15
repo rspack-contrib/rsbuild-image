@@ -38,7 +38,7 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           pnpm config set '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}"
-          pnpm publish -r --no-git-checks
+          pnpm publish --provenance -r --no-git-checks
 
       - name: Create GitHub Release
         uses: ncipollo/release-action@v1
