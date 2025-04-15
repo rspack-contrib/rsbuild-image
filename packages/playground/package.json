@@ -3,7 +3,21 @@
   "private": true,
   "version": "0.0.1-next.11",
   "scripts": {
-    "dev": "npx rsbuild dev",
-    "build": "npx rsbuild build"
+    "dev": "rsbuild dev",
+    "build": "rsbuild build"
+  },
+  "dependencies": {
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "@rsbuild-image/react": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "catalog:",
+    "@types/node": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "@rsbuild/core": "catalog:",
+    "@rsbuild/plugin-react": "catalog:",
+    "@rsbuild-image/core": "workspace:*"
   }
 }

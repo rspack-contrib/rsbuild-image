@@ -1,0 +1,49 @@
+.tip {
+  border-left: 3px solid #8888;
+  background-color: #8882;
+  padding: 0.5rem .75rem;
+  width: max-content;
+  border-radius: 7px;
+}
+
+.container {
+  display: flex;
+  gap: 1rem;
+  width: min-content;
+}
+
+.labeled {
+  position: relative;
+}
+
+.labeled__label {
+  position: absolute;
+  bottom: 0.5rem;
+  left: 0.5rem;
+  background-color: #fff3;
+  padding: 0.2rem 0.25rem;
+  font-size: 0.75rem;
+}
+
+.indicator {
+  display: inline-block;
+  margin: 0 0.3rem;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 999px;
+  background-color: #8888;
+}
+
+.indicator[data-loaded="true"] {
+  background-color: #4caf50;
+}
+
+img {
+  border-radius: 7px;
+}
+
+code {
+  background-color: #8882;
+  border-radius: 7px;
+  padding: 0.2rem 0.25rem;
+}
