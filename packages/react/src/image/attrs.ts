@@ -1,5 +1,6 @@
 import { applyImageLoader } from '@rsbuild-image/core/shared';
-import { type CSSProperties, use } from 'react';
+import type { CSSProperties } from 'react';
+import React from 'react';
 import { getBlurImage } from './blur';
 import type { ResolvedImageProps } from './props';
 
@@ -160,7 +161,7 @@ export function resolveImageAttrs(
   };
 
   const fetchPriority = priority ? 'high' : undefined;
-  if (typeof use === 'function') {
+  if (typeof React.use === 'function') {
     attrs.fetchPriority = fetchPriority;
   } else {
     // @ts-expect-error Compatibility with React 18.
