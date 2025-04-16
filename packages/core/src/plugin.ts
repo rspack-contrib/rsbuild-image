@@ -103,8 +103,7 @@ export const pluginImage = (options?: PluginImageOptions): RsbuildPlugin => {
       const loaderOptions: LoaderOptions = { thumbnail };
 
       // Panic while leave both `ipx` & `loader` empty,
-      if (!options?.ipx && !options?.loader)
-        throw new LoaderOrIPXRequiredError();
+      if (!ipx && !options?.loader) throw new LoaderOrIPXRequiredError();
 
       // Serialize and inject the options to the runtime context.
       api.modifyRsbuildConfig(async (config, { mergeRsbuildConfig }) => {
