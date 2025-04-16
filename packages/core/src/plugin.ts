@@ -16,6 +16,14 @@ export interface ExtendedIPXOptions extends Partial<IPXOptions> {
 export interface PluginImageOptions
   extends ImageSerializableContext,
     LoaderOptions {
+  /**
+   * Enable the builtin IPX middleware.
+   * It will mount a new route `/_rsbuild/ipx` to the development server.
+   * The IPX middleware will be used to process images on the fly.
+   *
+   * Only take effects to the **development server**,
+   * you need to setup a image according to your CDN in production.
+   */
   ipx?: ExtendedIPXOptions;
 }
 
@@ -89,13 +97,17 @@ export const pluginImage = (options?: PluginImageOptions): RsbuildPlugin => {
     name: '@rsbuild-image/core',
     async setup(api) {
       const { thumbnail } = options ?? {};
+      // Forced to be `undefined` in non-development mode.
+      // The IPX middleware is only available for development server
+      const ipx = api.context.action === 'dev' ? options?.ipx : undefined;
       const loaderOptions: LoaderOptions = { thumbnail };
+
+      // Panic while leave both `ipx` & `loader` empty,
+      if (!options?.ipx && !options?.loader)
+        throw new LoaderOrIPXRequiredError();
 
       // Serialize and inject the options to the runtime context.
       api.modifyRsbuildConfig(async (config, { mergeRsbuildConfig }) => {
-        if (!options?.ipx && !options?.loader)
-          throw new LoaderOrIPXRequiredError();
-
         let serializable: ImageSerializableContext | undefined;
 
         if (options) {
@@ -136,9 +148,9 @@ export const pluginImage = (options?: PluginImageOptions): RsbuildPlugin => {
 
       // Setup the IPX middleware.
       api.modifyRsbuildConfig(async (config, { mergeRsbuildConfig }) => {
-        if (!options?.ipx) return;
+        if (!ipx) return;
         const { createIPX, createIPXNodeServer } = await loadIPXModule();
-        const { basename = DEFAULT_IPX_BASENAME, ...ipxOptions } = options.ipx;
+        const { basename = DEFAULT_IPX_BASENAME, ...ipxOptions } = ipx;
 
         return mergeRsbuildConfig(config, {
           source: {
