@@ -1,6 +1,6 @@
 import type { ImageProps } from '@/types/image';
+import { ipxImageLoader } from '@rsbuild-image/core/shared';
 import { describe, expect, expectTypeOf, it } from 'vitest';
-import { ipxImageLoader } from './loader';
 import { resolveImageProps } from './props';
 
 describe('resolveImageProps', () => {
