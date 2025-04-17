@@ -5,6 +5,7 @@ import type { IPXOptions, IPXStorage } from 'ipx';
 import { withoutBase } from 'ufo';
 import type { LoaderOptions } from './loader';
 import { logger } from './logger';
+import * as resolved from './resolved';
 import type { ImageSerializableContext } from './shared';
 import { DEFAULT_IPX_BASENAME } from './shared/constants';
 import { isModuleNotFoundError } from './utils';
@@ -125,9 +126,8 @@ export const pluginImage = (options?: PluginImageOptions): RsbuildPlugin => {
               if (options?.loader) {
                 aliases.__INTERNAL_RSBUILD_IMAGE_LOADER__ = options.loader;
               } else {
-                aliases.__INTERNAL_RSBUILD_IMAGE_LOADER__ = require.resolve(
-                  './shared/image-loader',
-                );
+                aliases.__INTERNAL_RSBUILD_IMAGE_LOADER__ =
+                  resolved.IMAGE_LOADER;
               }
               return aliases;
             },
@@ -202,7 +202,7 @@ export const pluginImage = (options?: PluginImageOptions): RsbuildPlugin => {
           .type('javascript/auto')
           .resourceQuery(/\?image$/)
           .use('image-component-loader')
-          .loader(require.resolve('./loader.js'))
+          .loader(resolved.LOADER)
           .options(loaderOptions);
       });
     },
