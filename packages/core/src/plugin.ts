@@ -111,15 +111,6 @@ export const pluginImage = (options?: PluginImageOptions): RsbuildPlugin => {
   return {
     name: '@rsbuild-image/core',
     async setup(api) {
-      const { thumbnail } = options ?? {};
-      // Forced to be `undefined` in non-development mode.
-      // The IPX middleware is only available for development server
-      const ipx = isDev(api) ? options?.ipx : undefined;
-      const loaderOptions: LoaderOptions = { thumbnail };
-
-      // Panic while leave both `ipx` & `loader` empty,
-      if (!ipx && !options?.loader) throw new LoaderOrIPXRequiredError();
-
       // Serialize and inject the options to the runtime context.
       api.modifyRsbuildConfig(async (config, { mergeRsbuildConfig }) => {
         let serializable: ImageSerializableContext | undefined;
@@ -150,7 +141,6 @@ export const pluginImage = (options?: PluginImageOptions): RsbuildPlugin => {
       });
 
       let compiler: Rspack.Compiler | undefined;
-
       api.onAfterCreateCompiler((params) => {
         if (compiler) return;
         compiler =
@@ -161,6 +151,12 @@ export const pluginImage = (options?: PluginImageOptions): RsbuildPlugin => {
 
       // Setup the IPX middleware.
       api.modifyRsbuildConfig(async (config, { mergeRsbuildConfig }) => {
+        // Forced to be `undefined` in non-development mode.
+        // The IPX middleware is only available for development server
+        const ipx = isDev(api) ? options?.ipx : undefined;
+
+        // Panic while leave both `ipx` & `loader` empty,
+        if (!ipx && !options?.loader) throw new LoaderOrIPXRequiredError();
         if (!ipx) return;
         const { createIPX, createIPXNodeServer } = await loadIPXModule();
         const { basename = DEFAULT_IPX_BASENAME, ...ipxOptions } = ipx;
@@ -211,6 +207,8 @@ export const pluginImage = (options?: PluginImageOptions): RsbuildPlugin => {
 
       // Modify the bundler chain to add the image loader.
       api.modifyBundlerChain((chain) => {
+        const { thumbnail } = options ?? {};
+        const loaderOptions: LoaderOptions = { thumbnail };
         chain.module
           .rule('image-component-module')
           .type('javascript/auto')
