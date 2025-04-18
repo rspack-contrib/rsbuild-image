@@ -1,5 +1,5 @@
 import path from 'node:path';
-import type { RsbuildPlugin, Rspack } from '@rsbuild/core';
+import type { RsbuildPlugin, RsbuildPluginAPI, Rspack } from '@rsbuild/core';
 import { assert } from '@sindresorhus/is';
 import type { IPXOptions, IPXStorage } from 'ipx';
 import { withoutBase } from 'ufo';
@@ -93,6 +93,20 @@ function createBundlerStorage(compiler: Rspack.Compiler): IPXStorage {
   };
 }
 
+function isDev(api: RsbuildPluginAPI) {
+  let isDev: boolean;
+  if (typeof api.context.action === 'string') {
+    isDev = api.context.action === 'dev';
+  } else if ('command' in api.context) {
+    // Workaround with rspress.
+    isDev = api.context.command === 'dev';
+  } else {
+    logger.warn('Unable to distinguish dev/prod environment');
+    isDev = true;
+  }
+  return isDev;
+}
+
 export const pluginImage = (options?: PluginImageOptions): RsbuildPlugin => {
   return {
     name: '@rsbuild-image/core',
@@ -100,7 +114,7 @@ export const pluginImage = (options?: PluginImageOptions): RsbuildPlugin => {
       const { thumbnail } = options ?? {};
       // Forced to be `undefined` in non-development mode.
       // The IPX middleware is only available for development server
-      const ipx = api.context.action === 'dev' ? options?.ipx : undefined;
+      const ipx = isDev(api) ? options?.ipx : undefined;
       const loaderOptions: LoaderOptions = { thumbnail };
 
       // Panic while leave both `ipx` & `loader` empty,
