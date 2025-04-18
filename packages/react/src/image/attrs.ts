@@ -30,14 +30,14 @@ export function resolvePlaceholderStyle(
   if (placeholder === 'blur') {
     if (!thumbnail) {
       throw new Error(
-        `Image component with placeholder="blur" property requires src prop with thumbnail resource to be set: ${props.src}`,
+        `<Image placeholder="blur" /> expect "src" should be an image module but got: ${props.src}`,
       );
     }
     backgroundImage = `url("data:image/svg+xml;charset=utf-8,${getBlurImage({ thumbnail, width, height, objectFit })}")`;
   } else if (typeof placeholder === 'string') {
     if (!placeholder.startsWith('data:image/')) {
       throw new Error(
-        `Image component with placeholder prop must be a data URL, but got ${JSON.stringify(placeholder)}: ${props.src}`,
+        `<Image /> with "placeholder" prop must be a data URL, but got ${JSON.stringify(placeholder)}: ${props.src}`,
       );
     }
     backgroundImage = `url("${placeholder}")`;

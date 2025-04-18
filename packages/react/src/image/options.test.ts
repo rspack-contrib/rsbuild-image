@@ -39,7 +39,11 @@ describe('resolveImageOptions', () => {
         width: 75,
       },
     });
-    expect(props).toMatchObject({ height: 100, width: 75 });
+    expect(props).toMatchObject({
+      src: '/foo.jpg',
+      height: undefined,
+      width: undefined,
+    });
   });
 
   it('should resolve width & height from explicit props', () => {
@@ -127,22 +131,22 @@ describe('resolveImageOptions', () => {
       // @ts-expect-error width is not a number
       resolveImageOptions({ src: '/foo.jpg', width: null }),
     ).toThrowErrorMatchingInlineSnapshot(
-      '[Error: Image with src /foo.jpg must have width prop as a number, but got: null]',
+      `[Error: <Image src="/foo.jpg" /> must have "width" prop as a number, but got: null]`,
     );
     expect(() =>
       resolveImageOptions({ src: '/foo.jpg', width: Number.NaN }),
     ).toThrowErrorMatchingInlineSnapshot(
-      '[Error: Image with src /foo.jpg must have width prop as a number, but got: NaN]',
+      `[Error: <Image src="/foo.jpg" /> must have width prop as a number, but got: NaN]`,
     );
     expect(() =>
       resolveImageOptions({ src: '/foo.jpg', width: Number.POSITIVE_INFINITY }),
     ).toThrowErrorMatchingInlineSnapshot(
-      '[Error: Image with src /foo.jpg must have width prop as a number, but got: Infinity]',
+      `[Error: <Image src="/foo.jpg" /> must have width prop as a number, but got: Infinity]`,
     );
     expect(() =>
       resolveImageOptions({ src: '/foo.jpg', width: -1 }),
     ).toThrowErrorMatchingInlineSnapshot(
-      '[Error: Image with src /foo.jpg must have width prop as a positive number, but got: -1]',
+      `[Error: <Image src="/foo.jpg" /> must have width prop as a positive number, but got: -1]`,
     );
   });
 });

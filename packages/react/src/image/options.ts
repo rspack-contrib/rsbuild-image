@@ -1,33 +1,37 @@
-import type { ImageOptions, ImageResource } from '@/types/image';
+import type { ImageModule, ImageOptions, ImageResource } from '@/types/image';
 import { ipxImageLoader } from '@rsbuild-image/core/shared';
 
+function toFixedNumber(num: number, precision = 2): number {
+  const factor = 10 ** precision;
+  return Math.round(num * factor) / factor;
+}
+
 export function resolveImageOptions(options: ImageOptions) {
-  let src: string;
-  let height: number | undefined;
-  let width: number | undefined;
-  let thumbnail: ImageResource | undefined;
   let { unoptimized = false } = options;
 
+  let src: string;
+  let { width, height } = options;
+  let thumbnail: ImageResource | undefined;
+  let aspectRatio: number | undefined;
+
+  let mod: ImageModule | undefined;
   if (typeof options.src === 'string') {
-    // Just use user defined width, height properties because there's no intrinsic size.
-    ({ src, width, height } = options);
+    src = options.src;
   } else {
-    // Fill width & height by intrinsic size.
-    ({ url: src, width, height, thumbnail } = options.src);
-    if (options.width !== undefined && options.height !== undefined) {
-      // Replacing by user defined.
-      width = options.width;
-      height = options.height;
-    } else {
-      // Calculate the missing one by the aspect ratio of intrinsic size.
-      const aspectRatio = width / height;
-      if (options.width !== undefined) {
-        width = options.width;
-        height = options.width / aspectRatio;
-      } else if (options.height !== undefined) {
-        width = options.height * aspectRatio;
-        height = options.height;
-      }
+    src = options.src.url;
+    mod = options.src;
+  }
+  if (mod) {
+    src = mod.url;
+    aspectRatio = mod.width / mod.height;
+    thumbnail = mod.thumbnail;
+  }
+
+  if (aspectRatio !== undefined) {
+    if (width !== undefined && height === undefined) {
+      height = toFixedNumber(width / aspectRatio, 3);
+    } else if (height !== undefined && width === undefined) {
+      width = toFixedNumber(height * aspectRatio, 3);
     }
   }
 
@@ -38,17 +42,17 @@ export function resolveImageOptions(options: ImageOptions) {
     if (value === undefined) continue;
     if (typeof value !== 'number') {
       throw new Error(
-        `Image with src ${src} must have ${key} prop as a number, but got: ${value}`,
+        `<Image src="${src}" /> must have "${key}" prop as a number, but got: ${value}`,
       );
     }
     if (!Number.isFinite(value)) {
       throw new Error(
-        `Image with src ${src} must have ${key} prop as a number, but got: ${value}`,
+        `<Image src="${src}" /> must have ${key} prop as a number, but got: ${value}`,
       );
     }
     if (value < 0) {
       throw new Error(
-        `Image with src ${src} must have ${key} prop as a positive number, but got: ${value}`,
+        `<Image src="${src}" /> must have ${key} prop as a positive number, but got: ${value}`,
       );
     }
   }
