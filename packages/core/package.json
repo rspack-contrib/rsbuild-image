@@ -55,8 +55,7 @@
     "image-size": "^2.0.1",
     "rslog": "catalog:",
     "type-fest": "catalog:",
-    "ufo": "catalog:",
-    "@sindresorhus/is": "catalog:"
+    "ufo": "catalog:"
   },
   "devDependencies": {
     "@rsbuild/core": "catalog:",

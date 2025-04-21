@@ -5,3 +5,12 @@ export function isModuleNotFoundError(err: unknown): boolean {
     (err.code === 'ERR_MODULE_NOT_FOUND' || err.code === 'MODULE_NOT_FOUND')
   );
 }
+
+export function invariant(
+  condition: unknown,
+  message?: string,
+): asserts condition {
+  if (!condition) {
+    throw new Error(message ?? 'Assertion error');
+  }
+}

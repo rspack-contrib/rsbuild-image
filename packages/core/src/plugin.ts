@@ -1,6 +1,5 @@
 import path from 'node:path';
 import type { RsbuildPlugin, RsbuildPluginAPI, Rspack } from '@rsbuild/core';
-import { assert } from '@sindresorhus/is';
 import type { IPXOptions, IPXStorage } from 'ipx';
 import { withoutBase } from 'ufo';
 import type { LoaderOptions } from './loader';
@@ -8,7 +7,7 @@ import { logger } from './logger';
 import * as resolved from './resolved';
 import type { ImageSerializableContext } from './shared';
 import { DEFAULT_IPX_BASENAME } from './shared/constants';
-import { isModuleNotFoundError } from './utils';
+import { invariant, isModuleNotFoundError } from './utils';
 
 export interface ExtendedIPXOptions extends Partial<IPXOptions> {
   basename?: string;
@@ -170,12 +169,12 @@ export const pluginImage = (options?: PluginImageOptions): RsbuildPlugin => {
           dev: {
             setupMiddlewares: [
               (middlewares) => {
-                assert.truthy(
+                invariant(
                   compiler,
                   'Compiler is not initialized while setup the IPX middleware',
                 );
                 const { distPath } = api.context;
-                assert.string(distPath);
+                invariant(typeof distPath === 'string');
 
                 const { storage = createBundlerStorage(compiler), ...rest } =
                   ipxOptions;
