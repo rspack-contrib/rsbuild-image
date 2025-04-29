@@ -1,4 +1,4 @@
-import { joinURL } from 'ufo';
+import { joinURL, parseURL, stringifyParsedURL } from 'ufo';
 import { DEFAULT_IPX_BASENAME } from './constants';
 import type { ImageLoader, ImageLoaderArgs } from './types/image';
 
@@ -26,7 +26,13 @@ export const ipxImageLoader: ImageLoader = ({ src, width, quality }) => {
   const paramsStr = Object.entries(params)
     .map(([k, v]) => `${k}_${v}`)
     .join(',');
-  return joinURL(ipxImageLoaderBasename, paramsStr, src);
+  const parsedSrc = parseURL(src);
+  parsedSrc.pathname = joinURL(
+    ipxImageLoaderBasename,
+    paramsStr,
+    parsedSrc.pathname,
+  );
+  return stringifyParsedURL(parsedSrc);
 };
 
 export default ipxImageLoader;
