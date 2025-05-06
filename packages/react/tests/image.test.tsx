@@ -94,6 +94,20 @@ describe('Integrations', () => {
       }
     });
 
+    it('should render all sizes slots while taking simple sizes', async () => {
+      const { container } = render(<Image src={imgCrabUrl} sizes="100vw" />);
+      expect(container).toMatchInlineSnapshot(`
+        <div>
+          <img
+            loading="lazy"
+            sizes="100vw"
+            src="${getSrc(3840)}"
+            srcset="${fullSrcSet}"
+          />
+        </div>
+      `);
+    });
+
     it('should render all sizes slots while taking sizes with relative units', async () => {
       const { container } = render(
         <Image src={imgCrabUrl} sizes="(max-width: 600px) 100vw, 50vw" />,
@@ -180,6 +194,23 @@ describe('Integrations', () => {
             src="${getSrc(400)}"
             srcset="${getSrc(200)} 1x,${getSrc(400)} 2x"
             width="200"
+          />
+        </div>
+      `);
+    });
+
+    it('should set src according to overrideSrc property', async () => {
+      const { container } = render(
+        <Image src={imgCrab} width={300} overrideSrc="/foo/bar.png" />,
+      );
+      expect(container).toMatchInlineSnapshot(`
+        <div>
+          <img
+            height="200"
+            loading="lazy"
+            src="/foo/bar.png"
+            srcset="${getSrc(300)} 1x,${getSrc(600)} 2x"
+            width="300"
           />
         </div>
       `);
