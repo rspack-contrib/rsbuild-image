@@ -1,6 +1,6 @@
 {
   "name": "@rsbuild-image/core",
-  "version": "0.0.1-next.21",
+  "version": "0.0.1-next.22",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
