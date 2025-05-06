@@ -147,7 +147,6 @@ describe('Integrations', () => {
             height="1280"
             loading="lazy"
             src="${maxWidthSrc}"
-            srcset="${getSrc(1920)} 1x,${getSrc(3840)} 2x"
             width="1920"
           />
         </div>

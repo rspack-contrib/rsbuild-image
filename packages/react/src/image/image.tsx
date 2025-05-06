@@ -1,13 +1,10 @@
 import type { ImageProps } from '@/types/image';
+import { isUndefined } from '@sindresorhus/is';
 import { forwardRef, useContext, useState } from 'react';
 import { resolveImageAttrs } from './attrs';
 import { ImageOptionsContext } from './context';
 import { resolveImageProps } from './props';
-import {
-  type HTMLImageElementWithLoadedMark,
-  createDebug,
-  createLoadEvent,
-} from './utils';
+import { type HTMLImageElementWithLoadedMark, createLoadEvent } from './utils';
 
 /** @internal */
 export interface DebuggableImageProps extends ImageProps {
@@ -20,7 +17,17 @@ export const Image = forwardRef<HTMLImageElement, ImageProps>((props, ref) => {
 
   const resolvedProps = resolveImageProps({ ...imageOptionsContext, ...props });
   if (blurComplete) resolvedProps.placeholder = false;
+
   const attrs = resolveImageAttrs(resolvedProps);
+  // Remove unnecessary srcSet.
+  // Since the `resolveImageAttrs` will taking a resolved props.
+  if (
+    isUndefined(props.width) &&
+    isUndefined(props.height) &&
+    isUndefined(props.sizes)
+  ) {
+    attrs.srcSet = undefined;
+  }
 
   const handleLoad = (e?: React.SyntheticEvent<HTMLImageElement>) => {
     if (!e) return;
