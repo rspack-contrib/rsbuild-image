@@ -19,7 +19,7 @@ describe('resolveImageProps', () => {
       priority: false,
       quality: 75,
       src: '/foo.jpg',
-      unoptimized: false,
+      unoptimized: true,
       width: undefined,
     });
   });

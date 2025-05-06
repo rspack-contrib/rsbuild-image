@@ -1,5 +1,8 @@
 import type { ImageModule, ImageOptions, ImageResource } from '@/types/image';
 import { ipxImageLoader } from '@rsbuild-image/core/shared';
+import { createDebug } from './utils';
+
+const debug = createDebug('rsbuild:image:options');
 
 function toFixedNumber(num: number, precision = 2): number {
   const factor = 10 ** precision;
@@ -12,7 +15,6 @@ export function resolveImageOptions(options: ImageOptions) {
   let src: string;
   let { width, height } = options;
   let thumbnail: ImageResource | undefined;
-  let aspectRatio: number | undefined;
 
   let mod: ImageModule | undefined;
   if (typeof options.src === 'string') {
@@ -22,16 +24,17 @@ export function resolveImageOptions(options: ImageOptions) {
     mod = options.src;
   }
   if (mod) {
+    const aspectRatio = mod.width / mod.height;
     src = mod.url;
-    aspectRatio = mod.width / mod.height;
     thumbnail = mod.thumbnail;
-  }
-
-  if (aspectRatio !== undefined) {
-    if (width !== undefined && height === undefined) {
+    if (width !== undefined && height !== undefined) {
+      // do nothing
+    } else if (width !== undefined) {
       height = toFixedNumber(width / aspectRatio, 3);
-    } else if (height !== undefined && width === undefined) {
+    } else if (height !== undefined) {
       width = toFixedNumber(height * aspectRatio, 3);
+    } else {
+      ({ height, width } = mod);
     }
   }
 
@@ -57,12 +60,11 @@ export function resolveImageOptions(options: ImageOptions) {
     }
   }
 
-  if (
-    typeof src !== 'string' ||
-    src.startsWith('data:') ||
-    src.startsWith('blob:') ||
-    src.split('?', 1)[0].endsWith('.svg')
-  ) {
+  if (typeof src !== 'string') {
+    unoptimized = true;
+  } else if (src.startsWith('data:') || src.startsWith('blob:')) {
+    unoptimized = true;
+  } else if (src.split('?', 1)[0].endsWith('.svg')) {
     unoptimized = true;
   }
 
@@ -78,6 +80,7 @@ export function resolveImageOptions(options: ImageOptions) {
     unoptimized,
     thumbnail,
   } satisfies ImageOptions & Record<string, unknown>;
+  debug('resolveImageOptions:', resolved);
   return resolved;
 }
 

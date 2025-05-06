@@ -3,6 +3,7 @@ import type { CSSProperties } from 'react';
 import React from 'react';
 import { getBlurImage } from './blur';
 import type { ResolvedImageProps } from './props';
+import { createDebug } from './utils';
 
 const INVALID_BACKGROUND_SIZE_VALUES: CSSProperties['objectFit'][] = [
   '-moz-initial',
@@ -11,6 +12,8 @@ const INVALID_BACKGROUND_SIZE_VALUES: CSSProperties['objectFit'][] = [
   'scale-down',
   undefined,
 ];
+
+const debug = createDebug('rsbuild:image:attrs');
 
 /**
  * This implementation is based on code from [Next.js](https://github.com/vercel/next.js/blob/ed10f7ed0246fcc763194197eb9beebcbd063162/packages/next/src/shared/lib/get-img-props.ts#L649-L691)
@@ -98,7 +101,8 @@ export interface ConditionalSrc {
 export function resolveSrcSet(options: ResolvedImageProps) {
   const { densities, width, sizes, unoptimized } = options;
 
-  if (unoptimized) return undefined;
+  if (unoptimized) return null;
+  if (typeof width !== 'number' && !sizes) return null;
 
   const srcSet: ConditionalSrc[] = [];
   if (typeof width === 'number' && !sizes) {
@@ -130,7 +134,8 @@ export function resolveImageAttrs(
   props: ResolvedImageProps,
 ): React.ImgHTMLAttributes<HTMLImageElement> {
   let { src } = props;
-  const { alt, width, height, overrideSrc, loading, priority } = props;
+  const { alt, width, height, overrideSrc, loading, priority, unoptimized } =
+    props;
 
   const style = {
     ...props.style,
@@ -138,15 +143,18 @@ export function resolveImageAttrs(
     ...resolvePlaceholderStyle(props),
   };
 
-  const srcSet = resolveSrcSet(props);
-  const serializedSrcSet = srcSet
-    ?.map(({ url, condition }) => `${url} ${condition}`)
-    .join(',');
-  if (srcSet && srcSet.length > 0) {
-    src = overrideSrc ?? srcSet.at(-1)?.url ?? src;
+  let srcSet: string | undefined;
+  let sizes: string | undefined;
+  if (!unoptimized) {
+    const resolvedSet = resolveSrcSet(props);
+    srcSet = resolvedSet
+      ?.map(({ url, condition }) => `${url} ${condition}`)
+      .join(',');
+    if (resolvedSet && resolvedSet.length > 0) {
+      src = overrideSrc ?? resolvedSet.at(-1)?.url ?? src;
+    }
+    sizes = resolveSizes(props);
   }
-
-  const sizes = resolveSizes(props);
 
   const attrs: React.ImgHTMLAttributes<HTMLImageElement> = {
     src,
@@ -154,7 +162,7 @@ export function resolveImageAttrs(
     style,
     width,
     height,
-    srcSet: serializedSrcSet,
+    srcSet,
     sizes,
     loading,
     // TODO: Add data-* attributes to tag component states.
@@ -168,5 +176,6 @@ export function resolveImageAttrs(
     attrs.fetchpriority = fetchPriority;
   }
 
+  debug('resolveImageAttrs:', attrs);
   return attrs;
 }

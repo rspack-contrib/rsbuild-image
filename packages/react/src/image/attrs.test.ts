@@ -115,6 +115,28 @@ describe('resolveSrcSet', () => {
     ]);
   });
 
+  it('should return null while unoptimized', () => {
+    const props: ResolvedImageProps = {
+      ...defaultProps,
+      src: 'test.jpg',
+      width: 100,
+      height: 100,
+      unoptimized: true,
+    };
+    const result = resolveSrcSet(props);
+    expect(result).toBeNull();
+  });
+
+  it('should return null while no width or sizes provided', () => {
+    const props: ResolvedImageProps = {
+      ...defaultProps,
+      src: 'test.jpg',
+      height: 100,
+    };
+    const result = resolveSrcSet(props);
+    expect(result).toBeNull();
+  });
+
   it('should generate srcSet with different densities', () => {
     const props: ResolvedImageProps = {
       ...defaultProps,
@@ -185,37 +207,6 @@ describe('resolveSrcSet', () => {
       { url: '/image?t=test.jpg&w=100&q=75', condition: '1x' },
       { url: '/image?t=test.jpg&w=200&q=75', condition: '2x' },
     ]);
-  });
-
-  it('should get width from arguments even if width is not provided', () => {
-    const loader = vi.fn(defaultProps.loader);
-    const props = resolveImageProps({
-      src: '/test.jpg',
-      loader,
-      height: 100,
-    });
-    const result = resolveSrcSet(props);
-    assert(result);
-    expect(result.length).toBe(16);
-    expect(result.at(0)).toEqual({
-      condition: '16w',
-      url: '/image?t=%2Ftest.jpg&w=16&q=75',
-    });
-    expect(result.at(-1)).toEqual({
-      condition: '3840w',
-      url: '/image?t=%2Ftest.jpg&w=3840&q=75',
-    });
-
-    expect(loader).toHaveBeenCalledWith({
-      src: '/test.jpg',
-      width: 16,
-      quality: 75,
-    });
-    expect(loader).toHaveBeenCalledWith({
-      src: '/test.jpg',
-      width: 3840,
-      quality: 75,
-    });
   });
 
   it('should apply loader by width inferred from height', () => {

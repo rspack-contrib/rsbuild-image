@@ -3,7 +3,11 @@ import { forwardRef, useContext, useState } from 'react';
 import { resolveImageAttrs } from './attrs';
 import { ImageOptionsContext } from './context';
 import { resolveImageProps } from './props';
-import { type HTMLImageElementWithLoadedMark, createLoadEvent } from './utils';
+import {
+  type HTMLImageElementWithLoadedMark,
+  createDebug,
+  createLoadEvent,
+} from './utils';
 
 /** @internal */
 export interface DebuggableImageProps extends ImageProps {
@@ -59,9 +63,9 @@ export const Image = forwardRef<HTMLImageElement, ImageProps>((props, ref) => {
   };
 
   return (
+    // biome-ignore lint/a11y/useAltText: <explanation>
     <img
       {...attrs}
-      alt="test"
       ref={handleRef}
       onLoad={tryHandleLoad}
       onError={handleError}

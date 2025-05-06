@@ -51,6 +51,9 @@ catalogs:
     '@testing-library/react':
       specifier: ^13.4.0
       version: 13.4.0
+    '@types/debug':
+      specifier: ^4.1.12
+      version: 4.1.12
     '@types/node':
       specifier: ^22.8.1
       version: 22.13.14
@@ -60,6 +63,9 @@ catalogs:
     '@types/react-dom':
       specifier: ^19.0.10
       version: 19.1.2
+    debug:
+      specifier: ^4.4.0
+      version: 4.4.0
     ipx:
       specifier: ^3.0.3
       version: 3.0.3
@@ -130,7 +136,7 @@ importers:
         version: 5.8.3
       vitest:
         specifier: 'catalog:'
-        version: 3.1.1(@types/node@22.13.14)(jiti@2.4.2)(jsdom@26.0.0)(terser@5.39.0)
+        version: 3.1.1(@types/debug@4.1.12)(@types/node@22.13.14)(jiti@2.4.2)(jsdom@26.0.0)(terser@5.39.0)
 
   packages/core:
     dependencies:
@@ -182,7 +188,7 @@ importers:
         version: 8.6.12(storybook@8.6.12)
       '@testing-library/jest-dom':
         specifier: 'catalog:'
-        version: 6.4.7(vitest@3.1.1(@types/node@22.13.14)(jiti@1.21.7)(jsdom@26.0.0)(terser@5.39.0))
+        version: 6.4.7(vitest@3.1.1(@types/debug@4.1.12)(@types/node@22.13.14)(jiti@1.21.7)(jsdom@26.0.0)(terser@5.39.0))
       '@testing-library/react':
         specifier: 'catalog:'
         version: 13.4.0(@types/react@19.1.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -218,7 +224,7 @@ importers:
         version: 1.0.1(@rsbuild/core@1.3.5)(@rspack/core@1.3.3(@swc/helpers@0.5.15))(@storybook/test@8.6.12(storybook@8.6.12))(@types/react@19.1.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(rollup@4.39.0)(storybook@8.6.12)(typescript@5.8.3)(webpack@5.99.5(esbuild@0.25.2))
       vitest:
         specifier: 'catalog:'
-        version: 3.1.1(@types/node@22.13.14)(jiti@1.21.7)(jsdom@26.0.0)(terser@5.39.0)
+        version: 3.1.1(@types/debug@4.1.12)(@types/node@22.13.14)(jiti@1.21.7)(jsdom@26.0.0)(terser@5.39.0)
 
   packages/playground:
     dependencies:
@@ -259,6 +265,9 @@ importers:
       '@sindresorhus/is':
         specifier: 'catalog:'
         version: 7.0.1
+      debug:
+        specifier: 'catalog:'
+        version: 4.4.0
       react-dom:
         specifier: '>=16.9.0'
         version: 19.1.0(react@19.1.0)
@@ -304,10 +313,13 @@ importers:
         version: 8.6.12(storybook@8.6.12)
       '@testing-library/jest-dom':
         specifier: 'catalog:'
-        version: 6.4.7(vitest@3.1.1(@types/node@22.13.14)(jiti@1.21.7)(jsdom@26.0.0)(terser@5.39.0))
+        version: 6.4.7(vitest@3.1.1(@types/debug@4.1.12)(@types/node@22.13.14)(jiti@1.21.7)(jsdom@26.0.0)(terser@5.39.0))
       '@testing-library/react':
         specifier: 'catalog:'
         version: 13.4.0(@types/react@19.1.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      '@types/debug':
+        specifier: 'catalog:'
+        version: 4.1.12
       '@types/node':
         specifier: 'catalog:'
         version: 22.13.14
@@ -340,7 +352,7 @@ importers:
         version: 1.0.1(@rsbuild/core@1.3.5)(@rspack/core@1.3.3(@swc/helpers@0.5.15))(@storybook/test@8.6.12(storybook@8.6.12))(@types/react@19.1.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(rollup@4.39.0)(storybook@8.6.12)(typescript@5.8.3)(webpack@5.99.5)
       vitest:
         specifier: 'catalog:'
-        version: 3.1.1(@types/node@22.13.14)(jiti@1.21.7)(jsdom@26.0.0)(terser@5.39.0)
+        version: 3.1.1(@types/debug@4.1.12)(@types/node@22.13.14)(jiti@1.21.7)(jsdom@26.0.0)(terser@5.39.0)
 
 packages:
 
@@ -1432,6 +1444,9 @@ packages:
   '@types/babel__traverse@7.20.7':
     resolution: {integrity: sha512-dkO5fhS7+/oos4ciWxyEyjWe48zmG6wbCheo/G2ZnHx4fs3EU6YC6UM8rk56gAjNJ9P3MTH2jo5jb92/K6wbng==}
 
+  '@types/debug@4.1.12':
+    resolution: {integrity: sha512-vIChWdVG3LG1SMxEvI/AK+FWJthlrqlTu7fbrlywTkkaONwk/UAGaULXRlf8vkzFBLVm0zkMdCquhL5aOjhXPQ==}
+
   '@types/doctrine@0.0.9':
     resolution: {integrity: sha512-eOIHzCUSH7SMfonMG1LsC2f8vxBFtho6NGBznK41R84YzPuvSBzrhEps33IsQiOW9+VL6NQ9DbjQJznk/S4uRA==}
 
@@ -1452,6 +1467,9 @@ packages:
 
   '@types/mdx@2.0.13':
     resolution: {integrity: sha512-+OWZQfAYyio6YkJb3HLxDrvnx6SWWDbC0zVPfBRzUk0/nqoDyf6dNxQi3eArPe8rJ473nobTMQ/8Zk+LxJ+Yuw==}
+
+  '@types/ms@2.1.0':
+    resolution: {integrity: sha512-GsCCIZDE/p3i96vtEqx+7dBUGXrc7zeSK3wwPHIaRThS+9OhWIXRqzs4d6k1SVU8g91DrNRWxWUGhp5KXQb2VA==}
 
   '@types/node@18.19.86':
     resolution: {integrity: sha512-fifKayi175wLyKyc5qUfyENhQ1dCNI1UNjp653d8kuYcPQN5JhX3dGuP/XmvPTg/xRBn1VTLpbmi+H/Mr7tLfQ==}
@@ -4385,7 +4403,7 @@ snapshots:
       lz-string: 1.5.0
       pretty-format: 27.5.1
 
-  '@testing-library/jest-dom@6.4.7(vitest@3.1.1(@types/node@22.13.14)(jiti@1.21.7)(jsdom@26.0.0)(terser@5.39.0))':
+  '@testing-library/jest-dom@6.4.7(vitest@3.1.1(@types/debug@4.1.12)(@types/node@22.13.14)(jiti@1.21.7)(jsdom@26.0.0)(terser@5.39.0))':
     dependencies:
       '@adobe/css-tools': 4.4.2
       '@babel/runtime': 7.27.0
@@ -4396,7 +4414,7 @@ snapshots:
       lodash: 4.17.21
       redent: 3.0.0
     optionalDependencies:
-      vitest: 3.1.1(@types/node@22.13.14)(jiti@1.21.7)(jsdom@26.0.0)(terser@5.39.0)
+      vitest: 3.1.1(@types/debug@4.1.12)(@types/node@22.13.14)(jiti@1.21.7)(jsdom@26.0.0)(terser@5.39.0)
 
   '@testing-library/jest-dom@6.5.0':
     dependencies:
@@ -4447,6 +4465,10 @@ snapshots:
     dependencies:
       '@babel/types': 7.27.0
 
+  '@types/debug@4.1.12':
+    dependencies:
+      '@types/ms': 2.1.0
+
   '@types/doctrine@0.0.9': {}
 
   '@types/eslint-scope@3.7.7':
@@ -4466,6 +4488,8 @@ snapshots:
   '@types/json-schema@7.0.15': {}
 
   '@types/mdx@2.0.13': {}
+
+  '@types/ms@2.1.0': {}
 
   '@types/node@18.19.86':
     dependencies:
@@ -6512,7 +6536,7 @@ snapshots:
       jiti: 2.4.2
       terser: 5.39.0
 
-  vitest@3.1.1(@types/node@22.13.14)(jiti@1.21.7)(jsdom@26.0.0)(terser@5.39.0):
+  vitest@3.1.1(@types/debug@4.1.12)(@types/node@22.13.14)(jiti@1.21.7)(jsdom@26.0.0)(terser@5.39.0):
     dependencies:
       '@vitest/expect': 3.1.1
       '@vitest/mocker': 3.1.1(vite@6.2.6(@types/node@22.13.14)(jiti@1.21.7)(terser@5.39.0))
@@ -6535,6 +6559,7 @@ snapshots:
       vite-node: 3.1.1(@types/node@22.13.14)(jiti@1.21.7)(terser@5.39.0)
       why-is-node-running: 2.3.0
     optionalDependencies:
+      '@types/debug': 4.1.12
       '@types/node': 22.13.14
       jsdom: 26.0.0
     transitivePeerDependencies:
@@ -6551,7 +6576,7 @@ snapshots:
       - tsx
       - yaml
 
-  vitest@3.1.1(@types/node@22.13.14)(jiti@2.4.2)(jsdom@26.0.0)(terser@5.39.0):
+  vitest@3.1.1(@types/debug@4.1.12)(@types/node@22.13.14)(jiti@2.4.2)(jsdom@26.0.0)(terser@5.39.0):
     dependencies:
       '@vitest/expect': 3.1.1
       '@vitest/mocker': 3.1.1(vite@6.2.6(@types/node@22.13.14)(jiti@2.4.2)(terser@5.39.0))
@@ -6574,6 +6599,7 @@ snapshots:
       vite-node: 3.1.1(@types/node@22.13.14)(jiti@2.4.2)(terser@5.39.0)
       why-is-node-running: 2.3.0
     optionalDependencies:
+      '@types/debug': 4.1.12
       '@types/node': 22.13.14
       jsdom: 26.0.0
     transitivePeerDependencies:

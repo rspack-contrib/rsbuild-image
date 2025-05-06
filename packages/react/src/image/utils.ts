@@ -1,3 +1,5 @@
+import createDebug from 'debug';
+
 export interface HTMLImageElementWithLoadedMark extends HTMLImageElement {
   'data-loaded-src'?: string;
 }
@@ -54,3 +56,5 @@ export async function createLoadEvent(img: HTMLImageElementWithLoadedMark) {
 
   return event;
 }
+
+export { createDebug };

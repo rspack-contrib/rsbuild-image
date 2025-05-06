@@ -22,6 +22,11 @@ export function resolveImageProps(props: ImageProps) {
     ...rest,
     ...resolveImageOptions(props),
   } satisfies ImageProps & Record<string, unknown>;
+
+  if (resolved.width === undefined && resolved.sizes === undefined) {
+    resolved.unoptimized = true;
+  }
+
   return resolved;
 }
 

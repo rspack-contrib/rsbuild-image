@@ -41,8 +41,8 @@ describe('resolveImageOptions', () => {
     });
     expect(props).toMatchObject({
       src: '/foo.jpg',
-      height: undefined,
-      width: undefined,
+      height: 100,
+      width: 75,
     });
   });
 

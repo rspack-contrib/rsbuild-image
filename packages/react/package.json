@@ -24,9 +24,10 @@
     "preview-pack": "bash ./scripts/preview-pack.sh"
   },
   "dependencies": {
+    "@sindresorhus/is": "catalog:",
+    "debug": "catalog:",
     "type-fest": "catalog:",
-    "ufo": "catalog:",
-    "@sindresorhus/is": "catalog:"
+    "ufo": "catalog:"
   },
   "devDependencies": {
     "@rsbuild-image/core": "workspace:*",
@@ -40,26 +41,27 @@
     "@storybook/blocks": "catalog:",
     "@storybook/react": "catalog:",
     "@storybook/test": "catalog:",
-    "@testing-library/react": "catalog:",
     "@testing-library/jest-dom": "catalog:",
+    "@testing-library/react": "catalog:",
+    "@types/debug": "catalog:",
     "@types/node": "catalog:",
     "@types/react": "catalog:",
+    "ipx": "catalog:",
+    "jiti": "catalog:",
     "jsdom": "catalog:",
     "react": "catalog:",
-    "jiti": "catalog:",
     "sharp": "catalog:",
-    "vitest": "catalog:",
-    "ipx": "catalog:",
     "storybook": "catalog:",
     "storybook-addon-rslib": "catalog:",
-    "storybook-react-rsbuild": "catalog:"
+    "storybook-react-rsbuild": "catalog:",
+    "vitest": "catalog:"
   },
   "peerDependencies": {
     "@rsbuild-image/core": "*",
+    "ipx": ">=3.0.3",
     "react": ">=16.9.0",
     "react-dom": ">=16.9.0",
-    "sharp": ">=0.33.5",
-    "ipx": ">=3.0.3"
+    "sharp": ">=0.33.5"
   },
   "peerDependenciesMeta": {
     "sharp": {
