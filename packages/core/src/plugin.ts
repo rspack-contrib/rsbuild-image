@@ -7,10 +7,10 @@ import { logger } from './logger';
 import * as resolved from './resolved';
 import type { ImageSerializableContext } from './shared';
 import { DEFAULT_IPX_BASENAME } from './shared/constants';
-import { invariant, isModuleNotFoundError } from './utils';
+import { invariant, isModuleNotFoundError, scopedBuf } from './utils';
 
 export interface ExtendedIPXOptions extends Partial<IPXOptions> {
-  basename?: string;
+  assetPrefix?: string;
 }
 
 export interface PluginImageOptions
@@ -81,11 +81,8 @@ function createBundlerStorage(compiler: Rspack.Compiler): IPXStorage {
       const ofs = useOutputFileSystem();
       return new Promise((resolve, reject) => {
         ofs.readFile(resolveId(id), (err, res) => {
-          if (err) {
-            reject(err);
-          } else {
-            resolve(typeof res === 'string' ? Buffer.from(res) : res);
-          }
+          if (err) reject(err);
+          else resolve(res ? scopedBuf(res) : undefined);
         });
       });
     },
@@ -110,15 +107,15 @@ export const pluginImage = (options?: PluginImageOptions): RsbuildPlugin => {
   return {
     name: '@rsbuild-image/core',
     async setup(api) {
+      let serializable: ImageSerializableContext | undefined;
+
+      if (options) {
+        const { densities, loader, loading, placeholder, quality } = options;
+        serializable = { densities, loader, loading, placeholder, quality };
+      }
+
       // Serialize and inject the options to the runtime context.
       api.modifyRsbuildConfig(async (config, { mergeRsbuildConfig }) => {
-        let serializable: ImageSerializableContext | undefined;
-
-        if (options) {
-          const { densities, loader, loading, placeholder, quality } = options;
-          serializable = { densities, loader, loading, placeholder, quality };
-        }
-
         return mergeRsbuildConfig(config, {
           source: {
             define: {
@@ -158,12 +155,12 @@ export const pluginImage = (options?: PluginImageOptions): RsbuildPlugin => {
         if (!ipx && !options?.loader) throw new LoaderOrIPXRequiredError();
         if (!ipx) return;
         const { createIPX, createIPXNodeServer } = await loadIPXModule();
-        const { basename = DEFAULT_IPX_BASENAME, ...ipxOptions } = ipx;
+        const { assetPrefix = DEFAULT_IPX_BASENAME, ...ipxOptions } = ipx;
 
         return mergeRsbuildConfig(config, {
           source: {
             define: {
-              __INTERNAL_RSBUILD_IMAGE_BASENAME__: JSON.stringify(basename),
+              __RSBUILD_IMAGE_IPX_ASSET_PREFIX__: JSON.stringify(assetPrefix),
             },
           },
           dev: {
@@ -180,7 +177,7 @@ export const pluginImage = (options?: PluginImageOptions): RsbuildPlugin => {
                   ipxOptions;
                 const ipx = createIPX({ storage, ...rest });
                 logger.debug(`Created IPX with local storage from ${distPath}`);
-                logger.debug(`Created IPX with basename ${basename}`);
+                logger.debug(`Created IPX with assetPrefix ${assetPrefix}`);
 
                 const originalMiddleware = createIPXNodeServer(ipx);
                 middlewares.unshift((req, res, _next) => {
@@ -189,7 +186,7 @@ export const pluginImage = (options?: PluginImageOptions): RsbuildPlugin => {
                     _next();
                   };
                   if (!req.url) return next();
-                  const newUrl = withoutBase(req.url, basename);
+                  const newUrl = withoutBase(req.url, assetPrefix);
                   if (newUrl === req.url) return next();
                   req.url = newUrl;
 

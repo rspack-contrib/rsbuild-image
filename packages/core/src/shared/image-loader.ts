@@ -13,8 +13,8 @@ export function applyImageLoader(options: ApplyLoaderOptions): string {
 }
 
 let ipxImageLoaderBasename = DEFAULT_IPX_BASENAME;
-if (typeof __INTERNAL_RSBUILD_IMAGE_BASENAME__ === 'string') {
-  ipxImageLoaderBasename = __INTERNAL_RSBUILD_IMAGE_BASENAME__;
+if (typeof __RSBUILD_IMAGE_IPX_ASSET_PREFIX__ === 'string') {
+  ipxImageLoaderBasename = __RSBUILD_IMAGE_IPX_ASSET_PREFIX__;
 }
 
 export const ipxImageLoader: ImageLoader = ({ src, width, quality }) => {

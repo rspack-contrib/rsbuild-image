@@ -53,6 +53,7 @@
   },
   "dependencies": {
     "image-size": "^2.0.1",
+    "knitwork": "^1.2.0",
     "rslog": "catalog:",
     "type-fest": "catalog:",
     "ufo": "catalog:"

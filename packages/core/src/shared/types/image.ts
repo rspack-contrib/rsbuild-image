@@ -11,6 +11,7 @@ export interface ImageResource extends ImageSize {
 
 export interface ImageModule extends ImageResource {
   thumbnail?: ImageResource;
+  publicPath: string;
 }
 
 export interface ImageLoaderArgs
