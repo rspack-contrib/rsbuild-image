@@ -121,7 +121,7 @@ export const pluginImage = (
 
       let loader: string | undefined;
       if (typeof options.loader === 'function') {
-        loader = options.loader.url;
+        loader = options.loader.resourcePath;
         if (!loader) throw new UnableResolveImageLoaderError();
       } else {
         loader = options.loader;

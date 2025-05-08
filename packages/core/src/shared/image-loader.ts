@@ -1,3 +1,4 @@
+import { fileURLToPath } from 'node:url';
 import { joinURL, parseURL, stringifyParsedURL } from 'ufo';
 import { DEFAULT_IPX_BASENAME } from './constants';
 import type { ImageLoader, ImageLoaderArgs } from './types/image';
@@ -35,6 +36,6 @@ export const ipxImageLoader: ImageLoader = ({ src, width, quality }) => {
   return stringifyParsedURL(parsedSrc);
 };
 
-ipxImageLoader.url = import.meta.url;
+ipxImageLoader.resourcePath = fileURLToPath(import.meta.url);
 
 export default ipxImageLoader;
