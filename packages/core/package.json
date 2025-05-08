@@ -62,6 +62,7 @@
     "@rsbuild/core": "catalog:",
     "@rsbuild/plugin-react": "catalog:",
     "@rslib/core": "catalog:",
+    "mlly": "catalog:",
     "@storybook/addon-essentials": "catalog:",
     "@storybook/addon-interactions": "catalog:",
     "@storybook/addon-links": "catalog:",

@@ -17,6 +17,7 @@ catalog:
   rslog: ^1.1.0
   type-fest: ^4.37.0
   ufo: ^1.3.0
+  mlly: 1.7.4
   storybook: ^8.6.12
   storybook-addon-rslib: ^1.0.0
   storybook-react-rsbuild: ^1.0.0

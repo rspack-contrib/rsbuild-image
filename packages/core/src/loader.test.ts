@@ -1,6 +1,7 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { type Rspack, rspack } from '@rsbuild/core';
+import { evalModule as baseEvalModule, hasESMSyntax } from 'mlly';
 import { assert, beforeEach, describe, expect, it, vi } from 'vitest';
 import { images } from '../tests/fixtures/images';
 import loader, { type LoaderOptions } from './loader';
@@ -25,10 +26,7 @@ const mockContext = {
 } as unknown as Rspack.LoaderContext;
 
 // Add loader runner helper
-async function executeLoader(
-  content: Buffer | ArrayBuffer,
-  options: LoaderOptions = {},
-) {
+async function executeLoader(content: Buffer, options: LoaderOptions = {}) {
   mockLoaderOptions = options;
   let resolveCallback: (args: Parameters<LoaderCallback>) => void;
   const promise = new Promise<Parameters<LoaderCallback>>((resolve) => {
@@ -39,17 +37,27 @@ async function executeLoader(
     resolveCallback([err, result]);
   });
   vi.mocked(mockContext.async).mockReturnValue(callback);
-
-  loader.call(mockContext, Buffer.from(content));
+  loader.call(mockContext, content);
   return promise;
+}
+
+async function evalModule(content: string, publicPath = '/') {
+  assert(hasESMSyntax(content));
+  vi.stubGlobal('__webpack_public_path__', publicPath);
+  const mod = await baseEvalModule(content);
+  assert(typeof mod.default === 'object');
+  return mod.default;
 }
 
 describe('image loader', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     // Mock importModule to return asset path
-    vi.mocked(mockContext.importModule).mockResolvedValue(
-      '/assets/image.123456.jpg',
+    vi.mocked(mockContext.importModule).mockImplementation(
+      async (request, opts = {}) => {
+        const { publicPath = '' } = opts;
+        return `${publicPath}assets/image.123456.jpg`;
+      },
     );
   });
 
@@ -58,18 +66,17 @@ describe('image loader', () => {
     async (data) => {
       const { buffer, width, height } = data;
 
-      const [error, result] = await executeLoader(buffer);
+      const [error, result] = await executeLoader(Buffer.from(buffer));
       expect(error).toBeNull();
 
       // Verify module output content
       const moduleContent = result as string;
-      expect(moduleContent).toMatch(/^export default /);
-
-      const content = JSON.parse(moduleContent.replace('export default ', ''));
+      const content = await evalModule(moduleContent);
       expect(content).toMatchObject({
         url: '/assets/image.123456.jpg',
         width,
         height,
+        publicPath: '/',
         thumbnail: {
           url: expect.stringMatching(/^data:image\/jpeg;base64,/),
           // TODO: use concrete value.
@@ -85,10 +92,10 @@ describe('image loader', () => {
     async (data) => {
       const { buffer, width, height } = data;
 
-      const [error, result] = await executeLoader(buffer);
+      const [error, result] = await executeLoader(Buffer.from(buffer));
       expect(error).toBeNull();
       assert(typeof result === 'string');
-      const content = JSON.parse(result.replace('export default ', ''));
+      const content = await evalModule(result);
 
       const aspectRatioOriginal = width / height;
       const aspectRatioThumbnail =
@@ -101,16 +108,15 @@ describe('image loader', () => {
   );
 
   it('should not generate thumbnail if disabled', async () => {
-    const [error, result] = await executeLoader(images[0].buffer, {
+    const [error, result] = await executeLoader(Buffer.from(images[0].buffer), {
       thumbnail: false,
     });
     expect(error).toBeNull();
 
     const moduleContent = result as string;
-    expect(moduleContent).toMatch(/^export default /);
 
-    const content = JSON.parse(moduleContent.replace('export default ', ''));
-    expect(content).not.toHaveProperty('thumbnail');
+    const mod = await evalModule(moduleContent);
+    expect(mod.thumbnail).toBeUndefined();
   });
 
   it('should handle errors gracefully', async () => {
@@ -158,6 +164,7 @@ describe('image loader', () => {
         url: expect.stringMatching(/^\/.*\.jpg$/),
         width: 100,
         height: 75,
+        publicPath: '/',
         thumbnail: {
           url: expect.stringMatching(/^data:image\/jpeg;base64,/),
           width: 8,
