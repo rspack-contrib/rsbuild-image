@@ -1,4 +1,4 @@
-import type { ImageProps } from '@/types/image';
+import type { ImageProps } from '@rsbuild-image/core/shared';
 import { resolveImageOptions } from './options';
 
 export function resolveImageProps(props: ImageProps) {

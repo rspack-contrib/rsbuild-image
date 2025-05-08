@@ -1,4 +1,8 @@
-import type { ImageModule, ImageOptions, ImageResource } from '@/types/image';
+import type {
+  ImageModule,
+  ImageOptions,
+  ImageResource,
+} from '@rsbuild-image/core/shared';
 import { ipxImageLoader } from '@rsbuild-image/core/shared';
 import { createDebug } from './utils';
 

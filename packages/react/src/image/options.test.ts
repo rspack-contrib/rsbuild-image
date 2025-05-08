@@ -1,4 +1,4 @@
-import type { ImageOptions } from '@/types/image';
+import type { ImageOptions } from '@rsbuild-image/core/shared';
 import { describe, expect, expectTypeOf, it } from 'vitest';
 import { resolveImageOptions } from './options';
 

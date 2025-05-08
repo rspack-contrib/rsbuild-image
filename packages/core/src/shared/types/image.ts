@@ -11,7 +11,6 @@ export interface ImageResource extends ImageSize {
 
 export interface ImageModule extends ImageResource {
   thumbnail?: ImageResource;
-  publicPath: string;
 }
 
 export interface ImageLoaderArgs
@@ -21,7 +20,10 @@ export interface ImageLoaderArgs
   width: number;
 }
 
-export type ImageLoader = (args: ImageLoaderArgs) => string;
+export interface ImageLoader {
+  (args: ImageLoaderArgs): string;
+  url?: string;
+}
 
 /**
  * Inheritable options for the Image component.
@@ -84,7 +86,7 @@ export interface ImageContext {
  * These options can be overridden by the {@link ImageContext} and {@link ImageProps}.
  */
 export interface ImageSerializableContext extends Omit<ImageContext, 'loader'> {
-  loader?: string;
+  loader?: string | ImageLoader;
 }
 
 export interface ImageOptions extends Omit<ImageContext, 'loading'> {
@@ -122,6 +124,8 @@ export interface ImageOptions extends Omit<ImageContext, 'loading'> {
 
 export interface ImageProps extends ImageOptions, ImageContext {
   /**
+   * @deprecated Not supported yet.
+   *
    * Whether the image should fill its parent container.
    * When true, the image will stretch to fill its parent container's dimensions.
    * Parent must have 'position: relative' and dimensions set.

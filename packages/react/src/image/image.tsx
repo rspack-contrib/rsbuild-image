@@ -1,4 +1,4 @@
-import type { ImageProps } from '@/types/image';
+import type { ImageProps } from '@rsbuild-image/core/shared';
 import { isUndefined } from '@sindresorhus/is';
 import { forwardRef, useContext, useState } from 'react';
 import { resolveImageAttrs } from './attrs';

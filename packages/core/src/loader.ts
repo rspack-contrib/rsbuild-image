@@ -53,7 +53,6 @@ async function process(
     url: `__webpack_public_path__ + ${genString(url)}`,
     width: width,
     height: height,
-    publicPath: '__webpack_public_path__',
     thumbnail: thumbnail && genObjectFromValues(thumbnail, '  '),
   });
   const exportStmtTempl = `export default ${imageModuleTempl};`;

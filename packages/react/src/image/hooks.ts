@@ -1,5 +1,7 @@
-import type { ImageOptions } from '@/types/image';
-import { applyImageLoader } from '@rsbuild-image/core/shared';
+import {
+  type ImageOptions,
+  applyImageLoader,
+} from '@rsbuild-image/core/shared';
 import { useContext } from 'react';
 import { ImageOptionsContext } from './context';
 import { resolveImageOptions } from './options';

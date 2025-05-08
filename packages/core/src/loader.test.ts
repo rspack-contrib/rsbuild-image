@@ -76,7 +76,6 @@ describe('image loader', () => {
         url: '/assets/image.123456.jpg',
         width,
         height,
-        publicPath: '/',
         thumbnail: {
           url: expect.stringMatching(/^data:image\/jpeg;base64,/),
           // TODO: use concrete value.
@@ -164,7 +163,6 @@ describe('image loader', () => {
         url: expect.stringMatching(/^\/.*\.jpg$/),
         width: 100,
         height: 75,
-        publicPath: '/',
         thumbnail: {
           url: expect.stringMatching(/^data:image\/jpeg;base64,/),
           width: 8,

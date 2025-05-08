@@ -1,4 +1,4 @@
-import type { ImageContext } from '@/types/image';
+import type { ImageContext } from '@rsbuild-image/core/shared';
 import { assert } from '@sindresorhus/is';
 import { type PropsWithChildren, createContext, useContext } from 'react';
 

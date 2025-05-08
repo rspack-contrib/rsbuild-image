@@ -44,6 +44,14 @@ class LoaderOrIPXRequiredError extends Error {
   }
 }
 
+class UnableResolveImageLoaderError extends Error {
+  constructor() {
+    super(
+      'Can\t resolve the resource path of image loader. It must be a string or a loader function with url property.',
+    );
+  }
+}
+
 async function loadIPXModule() {
   try {
     return await import('ipx');
@@ -103,16 +111,30 @@ function isDev(api: RsbuildPluginAPI) {
   return isDev;
 }
 
-export const pluginImage = (options?: PluginImageOptions): RsbuildPlugin => {
+export const pluginImage = (
+  options: PluginImageOptions = {},
+): RsbuildPlugin => {
   return {
     name: '@rsbuild-image/core',
     async setup(api) {
-      let serializable: ImageSerializableContext | undefined;
+      const { densities, loading, placeholder, quality } = options;
 
-      if (options) {
-        const { densities, loader, loading, placeholder, quality } = options;
-        serializable = { densities, loader, loading, placeholder, quality };
+      let loader: string | undefined;
+      if (typeof options.loader === 'function') {
+        loader = options.loader.url;
+        if (!loader) throw new UnableResolveImageLoaderError();
+      } else {
+        loader = options.loader;
       }
+      loader ||= resolved.IMAGE_LOADER;
+
+      const serializable: ImageSerializableContext = {
+        densities,
+        loader,
+        loading,
+        placeholder,
+        quality,
+      };
 
       // Serialize and inject the options to the runtime context.
       api.modifyRsbuildConfig(async (config, { mergeRsbuildConfig }) => {
@@ -123,15 +145,10 @@ export const pluginImage = (options?: PluginImageOptions): RsbuildPlugin => {
             },
           },
           resolve: {
-            alias: (aliases) => {
-              if (options?.loader) {
-                aliases.__INTERNAL_RSBUILD_IMAGE_LOADER__ = options.loader;
-              } else {
-                aliases.__INTERNAL_RSBUILD_IMAGE_LOADER__ =
-                  resolved.IMAGE_LOADER;
-              }
-              return aliases;
-            },
+            alias: (aliases) => ({
+              ...aliases,
+              __INTERNAL_RSBUILD_IMAGE_LOADER__: loader,
+            }),
           },
         });
       });

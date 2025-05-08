@@ -1,4 +1,4 @@
-import type { ImageContext } from '@/types/image';
+import type { ImageContext } from '@rsbuild-image/core/shared';
 import { renderHook } from '@testing-library/react';
 import { type PropsWithChildren, useContext } from 'react';
 import { describe, expect, expectTypeOf, it, vi } from 'vitest';

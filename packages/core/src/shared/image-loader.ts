@@ -35,4 +35,6 @@ export const ipxImageLoader: ImageLoader = ({ src, width, quality }) => {
   return stringifyParsedURL(parsedSrc);
 };
 
+ipxImageLoader.url = import.meta.url;
+
 export default ipxImageLoader;

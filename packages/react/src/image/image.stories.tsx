@@ -1,4 +1,4 @@
-import type { ImageLoader, ImageProps } from '@/types/image';
+import type { ImageLoader, ImageProps } from '@rsbuild-image/core';
 import type { Meta, StoryObj } from '@storybook/react';
 import imgMountains from '../../tests/fixtures/images/large.jpg?image';
 import { Image } from './image';

@@ -1,2 +1,2 @@
 export * from './image';
-export type * from './types/image';
+export type * from '@rsbuild-image/core';
