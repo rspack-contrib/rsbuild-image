@@ -22,7 +22,7 @@ export interface ImageLoaderArgs
 
 export interface ImageLoader {
   (args: ImageLoaderArgs): string;
-  resourcePath?: string;
+  url?: string;
 }
 
 /**
