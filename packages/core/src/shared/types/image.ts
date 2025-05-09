@@ -20,10 +20,7 @@ export interface ImageLoaderArgs
   width: number;
 }
 
-export interface ImageLoader {
-  (args: ImageLoaderArgs): string;
-  url?: string;
-}
+export type ImageLoader = (args: ImageLoaderArgs) => string;
 
 /**
  * Inheritable options for the Image component.
@@ -86,7 +83,7 @@ export interface ImageContext {
  * These options can be overridden by the {@link ImageContext} and {@link ImageProps}.
  */
 export interface ImageSerializableContext extends Omit<ImageContext, 'loader'> {
-  loader?: string | ImageLoader;
+  loader?: string;
 }
 
 export interface ImageOptions extends Omit<ImageContext, 'loading'> {

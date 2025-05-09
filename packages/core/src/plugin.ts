@@ -119,14 +119,7 @@ export const pluginImage = (
     async setup(api) {
       const { densities, loading, placeholder, quality } = options;
 
-      let loader: string | undefined;
-      if (typeof options.loader === 'function') {
-        loader = options.loader.url;
-        if (!loader) throw new UnableResolveImageLoaderError();
-      } else {
-        loader = options.loader;
-      }
-      loader ||= resolved.IMAGE_LOADER;
+      const { loader = resolved.IMAGE_LOADER } = options;
 
       const serializable: ImageSerializableContext = {
         densities,

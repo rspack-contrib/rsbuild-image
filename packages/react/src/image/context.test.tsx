@@ -14,7 +14,10 @@ function providerWrapper(options: ImageContext = {}) {
 describe('ImageOptionsContext', () => {
   it('should provide default image options', () => {
     const { result } = renderHook(() => useContext(ImageOptionsContext));
-    expect(result.current).toEqual({ quality: 90 });
+    expect(result.current).toEqual({
+      quality: 90,
+      loader: expect.any(Function),
+    });
   });
 
   it('should inherit global options with ImageOptionsProvider', () => {
@@ -29,7 +32,10 @@ describe('ImageOptionsContext', () => {
     const { result } = renderHook(() => useContext(ImageOptionsContext), {
       wrapper: providerWrapper({ quality: 99 }),
     });
-    expect(result.current).toEqual({ quality: 99 });
+    expect(result.current).toEqual({
+      quality: 99,
+      loader: expect.any(Function),
+    });
   });
 
   it('should return the resolved image component context with default values', () => {

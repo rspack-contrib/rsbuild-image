@@ -35,6 +35,4 @@ export const ipxImageLoader: ImageLoader = ({ src, width, quality }) => {
   return stringifyParsedURL(parsedSrc);
 };
 
-ipxImageLoader.url = typeof window === 'undefined' ? __filename : undefined;
-
 export default ipxImageLoader;

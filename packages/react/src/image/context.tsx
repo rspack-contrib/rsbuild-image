@@ -1,19 +1,14 @@
 import type { ImageContext } from '@rsbuild-image/core/shared';
-import { assert } from '@sindresorhus/is';
 import { type PropsWithChildren, createContext, useContext } from 'react';
 
 export function createImageOptionsContext() {
   const ret: ImageContext = {};
   if (typeof __INTERNAL_RSBUILD_IMAGE_OPTIONS__ !== 'undefined') {
     Object.assign(ret, __INTERNAL_RSBUILD_IMAGE_OPTIONS__);
-    if (typeof __INTERNAL_RSBUILD_IMAGE_OPTIONS__.loader === 'string') {
+    try {
       const mod = require('@rsbuild-image/core/image-loader');
       ret.loader = mod.default || mod;
-      assert.function(
-        ret.loader,
-        `Image loader must be a function but got ${typeof ret.loader}`,
-      );
-    }
+    } catch {}
   }
   return ret;
 }
