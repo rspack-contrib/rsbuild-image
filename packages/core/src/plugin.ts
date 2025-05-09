@@ -147,7 +147,7 @@ export const pluginImage = (
           resolve: {
             alias: (aliases) => ({
               ...aliases,
-              __INTERNAL_RSBUILD_IMAGE_LOADER__: loader,
+              '@rsbuild-image/core/image-loader': loader,
             }),
           },
         });

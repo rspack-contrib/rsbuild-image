@@ -13,17 +13,22 @@
     ".": {
       "types": "./dist/index.d.ts",
       "node": "./dist/index.js",
-      "import": "./dist/index.mjs"
+      "module": "./dist/index.mjs"
     },
     "./loader": {
       "types": "./dist/loader.d.ts",
       "node": "./dist/loader.js",
-      "import": "./dist/loader.mjs"
+      "module": "./dist/loader.mjs"
     },
     "./shared": {
       "types": "./dist/shared/index.d.ts",
       "node": "./dist/shared/index.js",
-      "import": "./dist/shared/index.mjs"
+      "module": "./dist/shared/index.mjs"
+    },
+    "./image-loader": {
+      "types": "./dist/shared/image-loader.d.ts",
+      "node": "./dist/shared/image-loader.mjs",
+      "module": "./dist/shared/image-loader.mjs"
     },
     "./types": {
       "types": "./dist/env.d.ts"
@@ -34,6 +39,7 @@
       ".": ["./dist/index.d.ts"],
       "loader": ["./dist/loader.d.ts"],
       "shared": ["./dist/shared/index.d.ts"],
+      "image-loader": ["./dist/shared/image-loader.d.ts"],
       "types": ["./dist/env.d.ts"]
     }
   },

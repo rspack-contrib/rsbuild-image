@@ -7,7 +7,7 @@ export function createImageOptionsContext() {
   if (typeof __INTERNAL_RSBUILD_IMAGE_OPTIONS__ !== 'undefined') {
     Object.assign(ret, __INTERNAL_RSBUILD_IMAGE_OPTIONS__);
     if (typeof __INTERNAL_RSBUILD_IMAGE_OPTIONS__.loader === 'string') {
-      const mod = require(/* webpackIgnore: true */ '__INTERNAL_RSBUILD_IMAGE_LOADER__');
+      const mod = require('@rsbuild-image/core/image-loader');
       ret.loader = mod.default || mod;
       assert.function(
         ret.loader,
