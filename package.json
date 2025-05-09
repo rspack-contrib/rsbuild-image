@@ -1,6 +1,6 @@
 {
   "name": "@rsbuild-image/workspace",
-  "version": "0.0.1-next.28",
+  "version": "0.0.1-next.29",
   "private": true,
   "repository": {
     "type": "git",
