@@ -14,7 +14,7 @@ function toFixedNumber(num: number, precision = 2): number {
 }
 
 export function resolveImageOptions(options: ImageOptions) {
-  let { unoptimized = false } = options;
+  let { unoptimized = false, suppressSrcWarn } = options;
 
   let src: string;
   let { width, height } = options;
@@ -22,6 +22,11 @@ export function resolveImageOptions(options: ImageOptions) {
 
   let mod: ImageModule | undefined;
   if (typeof options.src === 'string') {
+    if (process.env.NODE_ENV === 'development' && !suppressSrcWarn) {
+      console.error(
+        `Resolving image src by a string url will break optimizations, use an ?image tagged import statement instead of: ${options.src}`,
+      );
+    }
     src = options.src;
   } else {
     src = options.src.url;

@@ -72,6 +72,12 @@ export interface ImageContext {
    * @default {false}
    */
   placeholder?: 'blur' | (string & {}) | false;
+  /**
+   * It will print warning while pass a string to `src` in development since it will break image optimization.
+   * Set `true` to suppress the warns.
+   * @default {false}
+   */
+  suppressSrcWarn?: boolean;
 }
 
 /**
