@@ -1,0 +1,66 @@
+{
+  "name": "@rsbuild-image/rspress",
+  "version": "2.0.0-beta.5",
+  "description": "A plugin for rspress to optimize image loading and rendering based rsbuild image.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rspack-contrib/rsbuild-image",
+    "directory": "packages/plugin-image"
+  },
+  "license": "MIT",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": ["dist"],
+  "scripts": {
+    "build": "rslib build",
+    "dev": "rslib build -w",
+    "reset": "rimraf ./**/node_modules"
+  },
+  "dependencies": {
+    "@img/sharp-wasm32": "catalog:",
+    "@mdx-js/mdx": "catalog:rspress",
+    "@rsbuild-image/core": "workspace:*",
+    "@rspress/shared": "catalog:rspress",
+    "estree-walker": "catalog:rspress",
+    "ipx": "catalog:",
+    "mdast-util-mdx-jsx": "catalog:rspress",
+    "mdast-util-mdxjs-esm": "catalog:rspress",
+    "remark-gfm": "catalog:rspress",
+    "rspack-plugin-virtual-module": "catalog:",
+    "sharp": "catalog:",
+    "unist-util-visit": "catalog:rspress"
+  },
+  "devDependencies": {
+    "@babel/types": "^7.27.1",
+    "@rsbuild-image/react": "workspace:*",
+    "@rsbuild/plugin-react": "catalog:",
+    "@rslib/core": "catalog:",
+    "@types/babel__core": "^7.20.5",
+    "@types/babel__standalone": "^7.1.9",
+    "@types/babel__traverse": "^7.20.7",
+    "@types/mdast": "catalog:rspress",
+    "@types/node": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "mdast-util-mdx-jsx": "catalog:rspress",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "rsbuild-plugin-publint": "catalog:",
+    "typescript": "catalog:",
+    "unified": "catalog:rspress"
+  },
+  "peerDependencies": {
+    "@rsbuild-image/react": "workspace:*",
+    "@rspress/core": "catalog:rspress",
+    "react": ">=18.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "lib": ["DOM", "ESNext"],
+    "jsx": "react-jsx",
+    "target": "ESNext",
+    "skipLibCheck": true,
+    "useDefineForClassFields": true,
+
+    /* modules */
+    "module": "ESNext",
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "moduleResolution": "Bundler",
+    "resolveJsonModule": true,
+
+    /* type checking */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+
+    "composite": true,
+    "baseUrl": "src",
+    "rootDir": "src"
+  },
+  "include": ["src"]
+}

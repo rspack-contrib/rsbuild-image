@@ -10,7 +10,7 @@
   "type": "module",
   "scripts": {
     "lint": "biome check .",
-    "lint:write": "biome check . --write",
+    "format": "biome check . --write",
     "prepare": "simple-git-hooks && pnpm --filter '*' run prepare",
     "test:browser": "playwright test",
     "test:unit": "vitest run",

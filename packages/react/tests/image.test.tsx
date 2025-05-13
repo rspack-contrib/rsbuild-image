@@ -1,5 +1,5 @@
 import { Image } from '@/image/image';
-import type { ImageModule } from '@/types/image';
+import type { ImageModule } from '@rsbuild-image/core';
 import { render } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import imgCrabUrl from './crab.png';

@@ -37,6 +37,24 @@ catalog:
   sharp: ^0.33.5
   ipx: ^3.0.3
   '@sindresorhus/is': ^7.0.1
+  '@img/sharp-wasm32': ^0.33.5
+  'rsbuild-plugin-publint': ^0.3.2
+  'rspack-plugin-virtual-module': 1.0.0
+
+catalogs:
+  rspress:
+    '@mdx-js/mdx': ^3.1.0
+    '@rspress/shared': beta
+    '@rspress/core': beta
+    'estree-walker': ^3.0.3
+    'mdast-util-mdx-jsx': ^3.2.0
+    'mdast-util-mdxjs-esm': ^2.0.1
+    'remark-gfm': ^4.0.1
+    'unist-util-visit': ^5.0.0
+    'typescript': ^5.8.2
+    'unified': ^11.0.5
+    '@types/mdast': ^4.0.4
+
 onlyBuiltDependencies:
   - '@biomejs/biome'
   - '@parcel/watcher'
