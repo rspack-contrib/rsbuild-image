@@ -1,6 +1,6 @@
 {
   "name": "@rsbuild-image/rspress",
-  "version": "2.0.0-beta.5",
+  "version": "0.0.1-next.32",
   "description": "A plugin for rspress to optimize image loading and rendering based rsbuild image.",
   "type": "commonjs",
   "repository": {
