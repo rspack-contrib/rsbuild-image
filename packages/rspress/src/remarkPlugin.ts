@@ -20,6 +20,34 @@ export interface RemarkPluginProps {}
  */
 export const remarkPlugin: Plugin<[RemarkPluginProps], Root> = () => {
   return (tree, _vfile) => {
+    let hasImage = false;
+
+    visit(tree, 'mdxJsxFlowElement', (node) => {
+      if (node.name !== 'img') return;
+      if (node.from !== 'mark') return;
+      hasImage = true;
+      node.name = 'RsbuildImageComponent$1';
+      const attrs: MdxJsxAttribute[] = [
+        {
+          type: 'mdxJsxAttribute',
+          name: 'placeholder',
+          value: 'blur',
+        },
+        {
+          type: 'mdxJsxAttribute',
+          name: 'sizes',
+          value: `(max-width: 1280px) 100vw, ${992 - 64 * 2}px`,
+        },
+      ];
+      const names = attrs.map((attr) => attr.name);
+      node.attributes = node.attributes.filter(
+        (attr) => attr.type !== 'mdxJsxAttribute' || !names.includes(attr.name),
+      );
+      node.attributes.push(...attrs);
+    });
+
+    if (!hasImage) return;
+
     visit(tree, 'mdxjsEsm', (node) => {
       if (!node.data?.estree) return;
       if (node.position !== undefined) return;
@@ -74,29 +102,6 @@ export const remarkPlugin: Plugin<[RemarkPluginProps], Root> = () => {
           ],
         },
       },
-    });
-
-    visit(tree, 'mdxJsxFlowElement', (node) => {
-      if (node.name !== 'img') return;
-      if (node.from !== 'mark') return;
-      node.name = 'RsbuildImageComponent$1';
-      const attrs: MdxJsxAttribute[] = [
-        {
-          type: 'mdxJsxAttribute',
-          name: 'placeholder',
-          value: 'blur',
-        },
-        {
-          type: 'mdxJsxAttribute',
-          name: 'sizes',
-          value: `(max-width: 1280px) 100vw, ${992 - 64 * 2}px`,
-        },
-      ];
-      const names = attrs.map((attr) => attr.name);
-      node.attributes = node.attributes.filter(
-        (attr) => attr.type !== 'mdxJsxAttribute' || !names.includes(attr.name),
-      );
-      node.attributes.push(...attrs);
     });
   };
 };

@@ -2,9 +2,10 @@
   "name": "@rsbuild-image/rspress",
   "version": "2.0.0-beta.5",
   "description": "A plugin for rspress to optimize image loading and rendering based rsbuild image.",
+  "type": "commonjs",
   "repository": {
     "type": "git",
-    "url": "https://github.com/rspack-contrib/rsbuild-image",
+    "url": "git+https://github.com/rspack-contrib/rsbuild-image.git",
     "directory": "packages/plugin-image"
   },
   "license": "MIT",
@@ -14,10 +15,11 @@
       "default": "./dist/index.js"
     }
   },
-  "module": "./dist/index.js",
+  "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": ["dist"],
   "scripts": {
+    "prepare": "pnpm build",
     "build": "rslib build",
     "dev": "rslib build -w",
     "reset": "rimraf ./**/node_modules"

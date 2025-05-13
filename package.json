@@ -14,6 +14,7 @@
     "prepare": "simple-git-hooks && pnpm --filter '*' run prepare",
     "test:browser": "playwright test",
     "test:unit": "vitest run",
+    "test:e2e": "playwright test",
     "test": "pnpm test:unit",
     "bump": "npx bumpp",
     "bump:prerelease": "pnpm bump -r prerelease --preid next"
@@ -24,9 +25,13 @@
   "devDependencies": {
     "@biomejs/biome": "catalog:",
     "@playwright/test": "catalog:",
+    "@types/cross-spawn": "^6.0.6",
     "@types/node": "catalog:",
+    "cross-spawn": "^7.0.6",
+    "get-port": "^7.1.0",
     "playwright": "catalog:",
     "simple-git-hooks": "^2.12.1",
+    "tree-kill": "^1.2.2",
     "typescript": "catalog:",
     "vitest": "catalog:"
   },

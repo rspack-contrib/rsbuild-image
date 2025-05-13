@@ -1,5 +1,6 @@
 import { pluginReact } from '@rsbuild/plugin-react';
 import { defineConfig } from '@rslib/core';
+import { pluginPublint } from 'rsbuild-plugin-publint';
 import { createDefines } from './define.config';
 
 export default defineConfig({
@@ -16,7 +17,7 @@ export default defineConfig({
     { format: 'esm', bundle: false, dts: true },
     { format: 'cjs', bundle: false },
   ],
-  plugins: [pluginReact()],
+  plugins: [pluginReact(), pluginPublint()],
   tools: {
     rspack(config) {
       config.module ||= {};
