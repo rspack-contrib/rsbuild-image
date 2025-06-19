@@ -1,6 +1,6 @@
 {
   "name": "@rsbuild-image/react",
-  "version": "0.0.1-next.33",
+  "version": "0.0.1-next.36",
   "type": "commonjs",
   "main": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
