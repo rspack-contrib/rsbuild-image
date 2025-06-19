@@ -1,10 +1,13 @@
 import type { ImageProps } from '@rsbuild-image/core/shared';
-import { isUndefined } from '@sindresorhus/is';
 import { forwardRef, useContext, useState } from 'react';
 import { resolveImageAttrs } from './attrs';
 import { ImageOptionsContext } from './context';
 import { resolveImageProps } from './props';
 import { type HTMLImageElementWithLoadedMark, createLoadEvent } from './utils';
+
+function isUndefined(value: unknown) {
+  return value === undefined;
+}
 
 /** @internal */
 export interface DebuggableImageProps extends ImageProps {
